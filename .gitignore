@@ -1,0 +1,6 @@
+#Arquivos e diretórios que o git irá ignorar
+venv
+.venv
+.env
+__pycache__
+*.sqlite3
