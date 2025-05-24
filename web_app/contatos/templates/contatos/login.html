@@ -11,30 +11,30 @@
 	
 	<link rel="stylesheet" href="{% static 'style/style.css'%}">
 
-	<link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body class="login-body">
 	<div class="login-card">
-		<h2>login</h2>
+		<h2 class="title-form">login</h2>
 		<form id="login-form" method="post">
-			<div>
-				<label for="user-login">usuário:</label></p>
+			<div class="div-input">
+				<label for="user-login" class="text-label-input">usuário:</label>
 				<div class="input-box-login">
-					<i class="bx bx-user"/>
+					<i class="bx bx-user-circle"></i>
 					<input type="text" id="user-login" name="username" class="input-login" placeholder="nome de usuário" required>
 				</div>
 			</div>
 
-			<div>
-				<label for="passwd-login">senha:</label></p>
+			<div class="div-input">
+				<label for="passwd-login" class="text-label-input">senha:</label>
 				<div class="input-box-login">
-					<i class="bx bx-lock"/>
+					<i class="bx bx-lock"></i> 
 					<input type="password" id="passwd-login" name="password" class="input-login" placeholder="senha" required>
 				</div>
 			</div>
 
-			<div>
-				<a id="forget-passwd" href="#">esqueci a senha</a>
+			<div class="container-forget-passwd">
+				<a id="forget-passwd" href="#">esqueceu a senha?</a>
 			</div>
 			<button type="submit" class="btn-submit-form">entrar</button>
 		</form>
