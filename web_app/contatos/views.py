@@ -5,5 +5,5 @@ from django.http import HttpResponse
 def loginScreen(request):
     return render(request, 'contatos/login.html')
 
-#def index(Request):
-#    return HttpResponse("Hello World")
+def index(Request):
+    return HttpResponse("Hello World")
