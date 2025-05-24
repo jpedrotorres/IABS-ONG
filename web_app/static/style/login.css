@@ -3,8 +3,9 @@
     align-items: center;
     justify-content: center;
 
-    width: 100vw;
-    height: 100vh;
+    width: calc(100vw - 100px);
+    height: calc(100vh - 60px);
+	padding: 30px 50px;
 
     background: #006835;
 }
@@ -13,7 +14,7 @@
     background: #fff;
 
     width: 100%;
-	min-width: 300px;
+	min-width: 230px;
 	max-width: 450px;
     padding: 20px;
     border-radius: 30px;
@@ -85,6 +86,7 @@
 
 	color: #fff;
 	background: #55595C;
+	font-weight: bold;
 
 	padding: 10px;
 	margin: 10px auto 0;
