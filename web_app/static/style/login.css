@@ -1,3 +1,8 @@
+@charset "utf-8";
+
+/*Arquivos de estilização internos*/
+@import url("style.css");
+
 .login-body {
     display: flex;
     align-items: center;
@@ -7,7 +12,7 @@
     height: calc(100vh - 60px);
 	padding: 30px 50px;
 
-    background: #006835;
+    background: var(--verdeEscuro);
 }
 
 .login-card {
@@ -85,7 +90,7 @@
 	display: block;
 
 	color: #fff;
-	background: #55595C;
+	background: var(--cinza);
 	font-weight: bold;
 
 	padding: 10px;
