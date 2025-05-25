@@ -72,6 +72,11 @@ WSGI_APPLICATION = 'web_app.wsgi.application'
 
 LOGIN_URL= "/login/"
 
+#Session time- A sessão expira após 5min (300s) caso o usuárionão faça nenhuma requisição ou caso ele encerre o navegador
+SESSION_EXPIRE_AT_BROWSER_CLOSE= True
+SESSION_COOKIE_AGE= 300
+SESSION_SAVE_EVERY_REQUEST = True
+
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
