@@ -17,7 +17,10 @@
 	<div class="login-card">
 		<h2 class="title-form">login</h2>
 		<form id="login-form" method="post">
-			<div class="div-input">
+			{% csrf_token %}
+			{{ form.as_p }}
+
+<!--		<div class="div-input">
 				<label for="user-login" class="text-label-input">usuário:</label>
 				<div class="input-box-login">
 					<i class="bx bx-user-circle"></i>
@@ -32,7 +35,7 @@
 					<input type="password" id="passwd-login" name="password" class="input-login" placeholder="senha" required>
 				</div>
 			</div>
-
+-->
 			<div class="container-forget-passwd">
 				<a id="forget-passwd" href="#">esqueceu a senha?</a>
 			</div>
