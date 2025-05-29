@@ -18,9 +18,31 @@
 		<h2 class="title-form">login</h2>
 		<form id="login-form" method="post">
 			{% csrf_token %}
-			{{ form.as_p }}
 
-<!--		<div class="div-input">
+			{% if form.non_field_errors %}
+				<br/>
+				<div class="alert-errors">
+					{% for error in form.non_field_errors %}
+						<p class="alert-text">{{ error }}</p>
+					{% endfor %}
+				</div>
+			{% endif %}
+			{% for field in form %}
+				<span class="text-label-input">{{ field.label }}</span>
+				{{ form.message.errors }}
+				<div class="input-box-login">
+					{% if field.name == "username" %}
+						<i class="bx bx-user-circle"></i>
+					{% elif field.name == "password" %}
+						<i class="bx bx-lock"></i>
+					{% endif %}
+					{{ field }}
+				</div>
+
+			{% endfor %}
+<!--			{{ form.as_p }}
+
+		<div class="div-input">
 				<label for="user-login" class="text-label-input">usuário:</label>
 				<div class="input-box-login">
 					<i class="bx bx-user-circle"></i>
