@@ -1,0 +1,18 @@
+@charset "utf-8";
+
+/*Arquivos de estilização externos*/
+/*Fontes: MontSerrat*/
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+	margin: 0;
+	padding: 0;
+
+	font-family: Montserrat, sans-serif;
+}
+
+:root {
+	--verdeEscuro: #006835;
+	--cinza: #55595C;
+	--verdeCLaro: #70BF54;
+}

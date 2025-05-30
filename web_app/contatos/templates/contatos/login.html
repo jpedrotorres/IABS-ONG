@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Login</title>
+
+	<!--Colocar o CSS e um ícone da página-->
+	{% load static %}
+	
+	<link rel="stylesheet" href="{% static 'style/login.css'%}">
+
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body class="login-body">
+	<main class="login-main">
+		<div class="login-image-container">
+			<img src="{% static 'image/iabs_logo1.png' %}" alt="Logo da ONG IABS" class="image-in-login">
+		</div>
+		<hr>
+
+		<div class="login-card">
+			<h2 class="title-form">login</h2>
+			<form id="login-form" method="post">
+				{% csrf_token %}
+
+				{% if form.non_field_errors %}
+					<br/>
+					<div class="alert-errors">
+						{% for error in form.non_field_errors %}
+							<p class="alert-text">{{ error }}</p>
+						{% endfor %}
+					</div>
+				{% endif %}
+				{% for field in form %}
+					<span class="text-label-input">{{ field.label }}</span>
+					{{ form.message.errors }}
+					<div class="input-box-login">
+						{% if field.name == "username" %}
+							<i class="bx bx-user-circle"></i>
+						{% elif field.name == "password" %}
+							<i class="bx bx-lock"></i>
+						{% endif %}
+						{{ field }}
+					</div>
+
+				{% endfor %}
+				<div class="container-forget-passwd">
+					<a id="forget-passwd" href="#">esqueceu a senha?</a>
+				</div>
+				<button type="submit" class="btn-submit-form">entrar</button>
+			</form>
+		</div>
+	</main>
+</body>
+</html>
