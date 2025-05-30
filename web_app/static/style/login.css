@@ -15,8 +15,8 @@
 	row-gap: 30px;
 
 	width: calc(100vw - 100px);
-	height: calc(100vh - 40px);
-	padding: 20px 50px;
+	height: 100vh;
+	padding: 0 50px;
 }
 
 .login-image-container {

@@ -29,3 +29,7 @@ def membro_login_view(request):
 @login_required
 def index_view(request):
     return render(request, "contatos/index.html")
+
+def membro_logout_view(request):
+	logout(request)
+	return redirect('login')
