@@ -14,55 +14,44 @@
 	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body class="login-body">
-	<div class="login-card">
-		<h2 class="title-form">login</h2>
-		<form id="login-form" method="post">
-			{% csrf_token %}
+	<main class="login-main">
+		<div class="login-image-container">
+			<img src="{% static 'image/iabs_logo1.png' %}" alt="Logo da ONG IABS" class="image-in-login">
+		</div>
+		<hr>
 
-			{% if form.non_field_errors %}
-				<br/>
-				<div class="alert-errors">
-					{% for error in form.non_field_errors %}
-						<p class="alert-text">{{ error }}</p>
-					{% endfor %}
-				</div>
-			{% endif %}
-			{% for field in form %}
-				<span class="text-label-input">{{ field.label }}</span>
-				{{ form.message.errors }}
-				<div class="input-box-login">
-					{% if field.name == "username" %}
-						<i class="bx bx-user-circle"></i>
-					{% elif field.name == "password" %}
-						<i class="bx bx-lock"></i>
-					{% endif %}
-					{{ field }}
-				</div>
+		<div class="login-card">
+			<h2 class="title-form">login</h2>
+			<form id="login-form" method="post">
+				{% csrf_token %}
 
-			{% endfor %}
-<!--			{{ form.as_p }}
+				{% if form.non_field_errors %}
+					<br/>
+					<div class="alert-errors">
+						{% for error in form.non_field_errors %}
+							<p class="alert-text">{{ error }}</p>
+						{% endfor %}
+					</div>
+				{% endif %}
+				{% for field in form %}
+					<span class="text-label-input">{{ field.label }}</span>
+					{{ form.message.errors }}
+					<div class="input-box-login">
+						{% if field.name == "username" %}
+							<i class="bx bx-user-circle"></i>
+						{% elif field.name == "password" %}
+							<i class="bx bx-lock"></i>
+						{% endif %}
+						{{ field }}
+					</div>
 
-		<div class="div-input">
-				<label for="user-login" class="text-label-input">usuário:</label>
-				<div class="input-box-login">
-					<i class="bx bx-user-circle"></i>
-					<input type="text" id="user-login" name="username" class="input-login" placeholder="nome de usuário" required>
+				{% endfor %}
+				<div class="container-forget-passwd">
+					<a id="forget-passwd" href="#">esqueceu a senha?</a>
 				</div>
-			</div>
-
-			<div class="div-input">
-				<label for="passwd-login" class="text-label-input">senha:</label>
-				<div class="input-box-login">
-					<i class="bx bx-lock"></i> 
-					<input type="password" id="passwd-login" name="password" class="input-login" placeholder="senha" required>
-				</div>
-			</div>
--->
-			<div class="container-forget-passwd">
-				<a id="forget-passwd" href="#">esqueceu a senha?</a>
-			</div>
-			<button type="submit" class="btn-submit-form">entrar</button>
-		</form>
-	</div>
+				<button type="submit" class="btn-submit-form">entrar</button>
+			</form>
+		</div>
+	</main>
 </body>
 </html>

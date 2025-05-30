@@ -4,25 +4,50 @@
 @import url("style.css");
 
 .login-body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	background: var(--verdeEscuro);
+}
 
-    width: calc(100vw - 100px);
-    height: calc(100vh - 60px);
-	padding: 30px 50px;
+.login-main {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	row-gap: 30px;
 
-    background: var(--verdeEscuro);
+	width: calc(100vw - 100px);
+	height: calc(100vh - 40px);
+	padding: 20px 50px;
+}
+
+.login-image-container {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+
+	background: #d9d9d9;
+
+	width: 150px;
+	height:150px;
+	padding: 1%;
+	border-radius: 50% 50%;
+}
+
+.image-in-login {
+	width: 70%;
+	height: auto;
+}
+
+hr {
+	width: 70%;
 }
 
 .login-card {
-    background: #fff;
+	background: #fff;
 
-    width: 100%;
+	width: 100%;
 	min-width: 230px;
 	max-width: 450px;
-    padding: 20px;
-    border-radius: 30px;
+	padding: 10px 20px;
+	border-radius: 30px;
 	box-shadow: 4px 4px 5px #00000055;
 }
 
