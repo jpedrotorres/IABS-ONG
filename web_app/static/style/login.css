@@ -3,16 +3,14 @@
 /*Arquivos de estilização internos*/
 @import url("style.css");
 
-.login-body {
-	background: var(--verdeEscuro);
-}
-
 .login-main {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
 	row-gap: 30px;
+
+	background: var(--verdeEscuro);
 
 	width: calc(100vw - 100px);
 	height: 100vh;
