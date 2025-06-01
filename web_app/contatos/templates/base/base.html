@@ -7,16 +7,14 @@
 	<title>{% block title %}Sistema IABS{% endblock %}</title>
 
 	<!--Colocar o CSS e um ícone da página-->
-<!--	{% load static %} -->
+	{% load static %}
 
-	<link rel="stylesheet" href="style/style.css">
-<!--	<link rel="stylesheet" href="{% static 'style/login.css'%}"> -->
+	<link rel="stylesheet" href="{% static 'style/style.css'%}">
 
 	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body class="body-base">
 	<!--menu.html-->
-<!--	{% block content %}-->
 		<header class="menu-vertical">
 			<nav class="header-nav">
 				<a href="#" id="header-logo"><img src="../sistema_IABS/web_app/static/image/iabs_logo2.png" alt="Logo IABS" class="img-inside-header"></a>
@@ -29,21 +27,12 @@
 
 			</nav>
 		</header>
-<!--	{% endblock %}-->
 	<!--base.html-->
 	<main>
-<!--		{% block content %}-->
-		<!--search_bar.html-->
-<!--		{% block content %}-->
-			<form method="get">
-				<div class="search-bar">
-					<input type="search" placeholder="pesquise aqui!" name="obj" class="input-search"><!--value= "{{ request.GET.obj }}"-->
-					<button type="submit" class="btn-search"><i class="bx bx-search"></i></button>
-				</div>
-			</form>
-<!--		{% endblock %}-->
+		{% include "base/search_bar.html" %}
+		{% block content %}
 
-<!--		{% endblock %}-->
+		{% endblock %}
 	</main>
 </body>
 </html>

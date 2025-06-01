@@ -28,7 +28,7 @@ def membro_login_view(request):
 
 @login_required
 def index_view(request):
-    return render(request, "contatos/index.html")
+    return render(request, "contatos/parceiro.html")
 
 def membro_logout_view(request):
 	logout(request)
