@@ -1,9 +1,9 @@
 {% load static %}
 <header class="menu-vertical">
 	<nav class="header-nav">
-		<a href="#" id="header-logo"><img src="{% static 'image/iabs_logo2.png' %}" alt="Logo IABS" class="img-inside-header"></a>
-		<a href="#" class="header-opc"><span class="opc-icon"><i class="bx bx-group"></i></span><span class="opc-text">parceiro</span></a>
-		<a href="#" class="header-opc"><span class="opc-icon"><i class="bx bx-calendar-event"></i></span><span class="opc-text">reunião</span></a>
+		<a href="{% url "index" %}" id="header-logo"><img src="{% static 'image/iabs_logo2.png' %}" alt="Logo IABS" class="img-inside-header"></a>
+		<a href="{% url "index" %}" class="header-opc"><span class="opc-icon"><i class="bx bx-group"></i></span><span class="opc-text">parceiro</span></a>
+		<a href="{% url "index" %}" class="header-opc"><span class="opc-icon"><i class="bx bx-calendar-event"></i></span><span class="opc-text">reunião</span></a>
 
 		<hr class="hr-menu">
 
