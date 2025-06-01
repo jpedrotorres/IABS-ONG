@@ -30,6 +30,9 @@ def membro_login_view(request):
 def index_view(request):
     return render(request, "contatos/parceiro.html")
 
+def logout_confirm_modal_view(request):
+	return render(request, "base/system_out_message.html")
+
 def membro_logout_view(request):
 	logout(request)
 	return redirect('login')
