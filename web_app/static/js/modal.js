@@ -1,62 +1,107 @@
-let modalSystemOut= null
-let modalBackdrop= null
-let modalPlace= null
+let genericModalDialog= null
+let genericModalBackdrop= null
+let genericModalPlace= null
 
-function openModal() {
-	const logoutButton= document.querySelector("#btn-logout")
-	modalPlace= document.querySelector("#modal-logout")
-
-	if(logoutButton) {
-		const modalUrl = logoutButton.dataset.modalUrl
-
-		logoutButton.addEventListener("click", function(event) {
-			event.preventDefault()
-
-			if (!modalUrl) {
-				console.error("URL do modal de logout não encontrada no data-modal-url do botão.")
-				return
-			}
-
-			fetch(modalUrl)
-			.then(response => response.text())
-			.then(html => {
-				modalPlace.innerHTML= html
-				modalSystemOut= document.querySelector("#modal-dialog")
-				modalBackdrop= document.querySelector("#modal-backdrop")
-
-				const btnCancel= document.querySelector(".btn-cancel")
-				btnCancel.addEventListener("click", closeModal)
-
-				showModal()
-			})
-			.catch(error => console.error("Erro ao carregar o modal de saída:", error))
-		})
-	}
-
-	if (modalPlace) {
-		modalPlace.addEventListener("click", function(event) {
-			if (event.target== modalBackdrop) closeModal()
-		})
+function setupGenericModal() {
+	genericModalPlace= document.querySelector("#modal-generic")
+	if (!genericModalPlace) {
+		console.error("Espaço para modal não encontrado (#modal-generic).");
+		return;
 	}
 }
 
-function showModal() {
-	if (modalSystemOut && modalBackdrop) {
-		modalSystemOut.style.display= "block"
-		modalBackdrop.style.display= "block"
+function openGenericModal(genericModalUrl, modalData) {
+	if (!modalData || typeof modalData != 'object') {
+		console.error("Dados do modal inválidos. Esperava um objeto.");
+		return;
+	}
+	
+	fetch(genericModalUrl, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'X-CSRFToken': getCookie('csrftoken')
+		},
+		body: JSON.stringify(modalData)
+	})
+	.then(response => {
+		if (!response.ok) {
+			return response.json().then(err => {
+				throw new Error(err.error || `Erro HTTP: ${response.status} ${response.statusText}`)
+			}).catch(() => {
+				throw new Error(`Erro HTTP: ${response.status} ${response.statusText}`)
+			})
+		}
+		return response.text()
+	})
+	.then(html => {
+		genericModalPlace.innerHTML= html
+		genericModalDialog= document.querySelector("#modal-dialog")
+		genericModalBackdrop= document.querySelector("#modal-backdrop")
+		
+		if (!genericModalDialog || !genericModalBackdrop) {
+			console.error("Elementos do modal (dialog ou backdrop) não encontrados após a inserção do HTML.")
+			return
+		}
+
+		const closeButtons = genericModalDialog.querySelectorAll('.btn-cancel')
+		closeButtons.forEach(button => {
+			button.addEventListener('click', closeGenericModal);
+		})
+		
+		genericModalBackdrop.addEventListener("click", function(event) {
+			if (event.target == genericModalBackdrop) closeGenericModal()
+		})
+
+		showGenericModal()
+	})
+	.catch(error => console.error("Erro ao carregar o modal de saída:", error))
+}
+
+function getCookie(name) {
+	let cookieValue = null;
+	if (document.cookie && document.cookie != '') {
+		const cookies = document.cookie.split(';');
+		for (let i = 0; i < cookies.length; i++) {
+			const cookie = cookies[i].trim();
+			if (cookie.startsWith(name + '=')) {
+				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+				break;
+			}
+		}
+	}
+	return cookieValue;
+}
+
+function showGenericModal() {
+	if (genericModalDialog && genericModalBackdrop) {
+		genericModalDialog.style.display= "block"
+		genericModalBackdrop.style.display= "block"
 
 		document.body.classList.add("modal-open")
 	}
 }
 
-function closeModal() {
-	if (modalSystemOut && modalBackdrop) {
-		modalSystemOut.style.display= "none"
-		modalBackdrop.style.display= "none"
+function closeGenericModal() {
+	if (genericModalDialog && genericModalBackdrop) {
+		genericModalDialog.style.display= "none"
+		genericModalBackdrop.style.display= "none"
 
 		document.body.classList.remove("modal-open")
-		modalPlace.innerHTML= ""
+		genericModalPlace.innerHTML= ""
+		genericModalDialog = null
+		genericModalBackdrop = null
 	}
 }
 
-document.addEventListener("DOMContentLoaded", openModal)
+const logoutButton= document.querySelector("#btn-logout")
+if (logoutButton) {
+	logoutButton.addEventListener("click", function(event) {
+		event.preventDefault()
+		const logoutUrl= logoutButton.dataset.modalUrl
+		console.log("URL de modal de logout sendo usada:", logoutUrl)
+		openGenericModal(logoutUrl, {type: 'logout' })
+	})
+}
+
+document.addEventListener("DOMContentLoaded", setupGenericModal)

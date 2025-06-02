@@ -1,0 +1,18 @@
+<div class="modal-background" id="modal-backdrop"></div>
+<div class="modal-dialog" id="modal-dialog">
+	<div class="modal-content" id="modal-content">
+		<header class="modal-header">
+			<h5 class="modal-title">{{ modal_title|default:"Atenção" }}</h5>
+			<button type="button" class="btn-cancel btn-close" aria-label="Fechar">&times;</button>
+		</header>
+		<main class="modal-main">
+			<p>{{ modal_message|default:"Por favor, confirme a ação." }}</p>
+		</main>
+		{% if modal_confirm_url or modal_confirm_text %}
+		<footer class="modal-footer">
+			<a href="{{ modal_confirm_url|default:'#' }}" class="btn-modal btn-confirm-primary">{{ modal_confirm_text|default:"Confirmar" }}</a>
+			<button type="button" class="btn-modal btn-confirm-secondary btn-cancel">Cancelar</button>
+		</footer>
+		{% endif %}
+	</div>
+</div>
