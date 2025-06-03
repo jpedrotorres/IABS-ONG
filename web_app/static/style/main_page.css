@@ -1,0 +1,15 @@
+.main-content-page {
+    display: grid;
+    grid-template-rows: 10% 1fr;
+    grid-template-columns: 70% 30%;
+
+    padding: 20px 50px;
+}
+
+.main-content-page > form {
+    grid-column: 1/3;
+}
+
+.main-content-page-list {
+    width: 100%;
+}
