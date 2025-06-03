@@ -43,7 +43,7 @@ body.modal-open {
 .modal-content > * {
 	background: inherit;
 
-	padding: none;
+	padding: 15px 0;
 }
 
 .modal-header {
