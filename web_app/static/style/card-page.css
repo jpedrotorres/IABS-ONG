@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+.card-page {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 1em;
+
+    background: #d9d9d9;
+    
+    width: fit-content;
+    padding: 10px;
+    border-radius: 5px;
+
+
+}
+
+.btn-card-page-info {
+    color: #fff;
+    background: #625B71;
+
+    padding: 5px 10px;
+    border-radius: 5px;
+
+    text-transform: capitalize;
+}
