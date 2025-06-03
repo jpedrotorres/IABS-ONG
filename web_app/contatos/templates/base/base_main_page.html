@@ -1,0 +1,8 @@
+{% extends "base/base.html" %}
+{% block content %}
+    {% include "base/search_bar.html" %}
+    <div class="main-content-page">
+    {% block main_content_list %}
+    {% endblock %}
+    </div>
+{% endblock %}

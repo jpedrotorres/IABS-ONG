@@ -1,8 +1,8 @@
-{% extends "base/base.html" %}
+{% include "base/base_main_page.html" %}
 
 {% block title %}Parceiros{% endblock %}
 
-{% block content %}
+{% block main_content_list %}
 {% include "base/base_card_parceiro.html" with status=parceiro.status name=parceiro.name %}
 <p>parceiros</p>
 {% endblock %}
