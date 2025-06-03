@@ -102,3 +102,28 @@ body.modal-open {
 
 	cursor: pointer;
 }
+
+.modal-data-register {
+	background: #dad4db;
+	text-transform: capitalize;
+
+	padding: 10px 20px;
+	border-radius: 20px;
+}
+
+.modal-register-container-text {
+	margin-bottom: 10px;
+}
+
+.btn-modal-register {
+	color: #fff;
+	font-size: 16px;
+	background: #55595c;
+	text-transform: capitalize;
+	
+	width: 100%;
+	padding: 15px;
+	border: none;
+	border-radius: 15px;
+	cursor: pointer;
+}

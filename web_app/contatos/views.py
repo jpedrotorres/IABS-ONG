@@ -36,10 +36,13 @@ def index_view(request):
 @login_required
 def parceiro_view(request):
 	context={
-		'parceiro': {
+		"parceiro": {
 			"name": "teste",
 			"status": "ativo",
 		},
+		"pagina": {
+			"tipo": "parceiro"
+		}
 	}
 
     return render(request, "contatos/parceiro.html", context)
