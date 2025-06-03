@@ -1,6 +1,11 @@
 {% extends "base/base_card_page.html" %}
 {% block content %}
-<h1>Hello World</h1>
+<div class="card-page-img-parceiro"></div>
+<div class="card-page-text-parceiro">
+    <p class="card-page-status-parceiro">{{ status }}</p>
+    <h3 class="card-page-name-parceiro">{{ name }}</h3>
+</div>
 {% endblock %}
-
-{% block action_name %}relatório{% endblock %}
+{% block particular_action %}
+<div class="status-parceiro-widget {% if status == 'ativo' %}status-green{% else %}status-red{% endif %}"></div>
+{% endblock %}

@@ -4,11 +4,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    column-gap: 1em;
+    column-gap: 2em;
 
     background: #d9d9d9;
     
-    width: fit-content;
+    max-width: 700px;
     padding: 10px;
     border-radius: 5px;
 
@@ -23,4 +23,55 @@
     border-radius: 5px;
 
     text-transform: capitalize;
+}
+
+.card-page-message {
+    display: flex;
+    align-items: center;
+    column-gap: .9em;
+
+    color: #49454f;
+}
+
+.card-page-button {
+    display: flex;
+    align-items: center;
+    column-gap: .5em;
+}
+
+/*Card Parceiro*/
+.card-page-img-parceiro {
+    background: #1a1a1a;
+    width: 50px;
+    height: 50px;
+}
+
+.card-page-text-parceiro {
+    
+}
+
+.card-page-status-parceiro {
+    font-size: 12px;
+    text-transform: capitalize;
+}
+
+.card-page-name-parceiro {
+    font-size: 18px;
+    text-transform: capitalize;
+}
+
+.status-red {
+    background: #C72525;
+}
+
+.status-green {
+    background: #006835;
+}
+
+.status-parceiro-widget {
+    order: -1;
+
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
 }

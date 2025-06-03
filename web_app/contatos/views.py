@@ -21,12 +21,12 @@ def membro_login_view(request):
 			user = authenticate(request, username=username, password=password)
 			if user is not None:
 				login(request, user)
-				return redirect("index")
+				return redirect("parceiro_page")
 	else:
 		form = MembroLoginForms(request)
 
 		if request.user.is_authenticated:
-			return redirect("index")
+			return redirect("parceiro_page")
 	return render(request, "contatos/login.html", {"form": form})
 
 @login_required
@@ -35,7 +35,14 @@ def index_view(request):
 
 @login_required
 def parceiro_view(request):
-    return render(request, "contatos/parceiro.html")
+	context={
+		'parceiro': {
+			"name": "teste",
+			"status": "ativo",
+		},
+	}
+
+    return render(request, "contatos/parceiro.html", context)
 
 @login_required
 def reuniao_view(request):
