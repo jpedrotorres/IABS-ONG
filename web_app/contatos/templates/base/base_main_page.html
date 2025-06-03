@@ -1,8 +1,14 @@
 {% extends "base/base.html" %}
 {% block content %}
-    {% include "base/search_bar.html" %}
-    <div class="main-content-page">
-    {% block main_content_list %}
-    {% endblock %}
-    </div>
+    <main class="main-content-page">
+        {% include "base/search_bar.html" %}
+        <div class="main-content-page-list">
+        {% block main_content_list %}
+        {% endblock %}
+        </div>
+        <div class="main-content-page-aside">
+            {% block aside_content %}
+            {% endblock %}
+        </div>
+    </main>
 {% endblock %}

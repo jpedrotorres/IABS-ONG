@@ -16,12 +16,9 @@
 </head>
 <body class="body-base">
 	{% include "base/menu.html" %}
-	<main>
 		{% include "base/search_bar.html" %}
 		{% block content %}
-
 		{% endblock %}
-	</main>
 	<script src="{% static 'js/modal.js' %}"></script>
 </body>
 </html>
