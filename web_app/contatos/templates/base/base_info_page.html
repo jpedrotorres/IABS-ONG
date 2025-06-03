@@ -1,7 +1,8 @@
 {% extends "base/base.html" %}
 {% block content %}
-    <main class="main-info-page"
-        <div class="">
+    <main class="main-info-page">
+        <h1 class="title-info-page">{% block title_info %}dados{% endblock %}</h1>
+        <div class="form-info">
             {% block info_page %}
             {% endblock %}
         </div>
