@@ -31,7 +31,15 @@ def membro_login_view(request):
 
 @login_required
 def index_view(request):
+    return render(request, "contatos/index.html")
+
+@login_required
+def parceiro_view(request):
     return render(request, "contatos/parceiro.html")
+
+@login_required
+def reuniao_view(request):
+    return render(request, "contatos/reuniao.html")
 
 def logout_confirm_modal_view(request):
 	try:

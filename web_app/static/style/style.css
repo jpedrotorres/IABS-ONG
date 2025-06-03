@@ -70,7 +70,7 @@ a {
 	height: auto;
 }
 
-.header-opc:focus {
+.header-opc-active, .header-opc:focus, .header-opc:hover {
 	background: var(--verdeClaro);
 
 	border-radius: 20px 0 0 20px;
