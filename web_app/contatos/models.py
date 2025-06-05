@@ -18,16 +18,27 @@ status_reuniao= [
 	("C", "Cancelada")
 ]
 
+tipo_membro= [
+	("C", "Colaborador")
+	("A", "Administrador")
+]
+
+# Revisar
 class  MembroONG(models.Model):
-	matricula= models.IntegerField(unique=True)
-	nome= models.CharField(max_length=255)
-	cargo= models.CharField(max_length=100)
-	status= models.CharField(max_length=1, choices=status_membro, default="A")
-	email= models.EmailField(max_length=100)
-	telefone= models.CharField(max_length=20)
+	matricula= models.CharField(primary_key=True)
+	nome= models.CharField(max_length=100, blank=True)
+	cpf = models.CharField(max_length=11, blank=True)
+	cargo= models.CharField(max_length=70, blank=True, null=True)
+	email= models.EmailField(max_length=100, unique=True, blank=True)
+	status= models.CharField(max_length=1, choices=status_membro, default="A", blank=True)
+	telefone_celular= models.IntegerField(max_length=11, blank=True, null=True)
+	# declarar: data_nascimento (blank=True, null=True)
+	tipo= models.CharField(max_length=1, choices=tipo_membro, default="C", blank=True)
 
 	def __str__(self):
 		return self.nome
+	
+	# verificar: nome, cpf, email, status, tipo
 
 class  Parceiro(models.Model):
 	nome= models.CharField(max_length=255)
@@ -44,7 +55,7 @@ class  Parceiro(models.Model):
 	area_interesse= models.CharField(max_length=255)
 	website= models.URLField(max_length=200)
 	contrato_parceiro= models.CharField(max_length=255)
-	observacoes= models.TextField(null=True)
+	observacoes= models.TextField(blank=True)
 	membroONG= models.ForeignKey(MembroONG, on_delete=models.CASCADE)
 
 	def __str__(self):
