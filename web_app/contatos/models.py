@@ -26,7 +26,7 @@ tipo_membro= [
 # Revisar
 class  MembroONG(models.Model):
 	matricula= models.CharField(primary_key=True)
-	nome= models.CharField(max_length=100, blank=True)
+	nome= models.CharField(max_length=150, blank=True)
 	cpf = models.CharField(max_length=11, blank=True)
 	cargo= models.CharField(max_length=70, blank=True, null=True)
 	email= models.EmailField(max_length=100, unique=True, blank=True)
@@ -40,14 +40,17 @@ class  MembroONG(models.Model):
 	
 	# verificar: nome, cpf, email, status, tipo
 
+# Revisar
 class  Parceiro(models.Model):
-	nome= models.CharField(max_length=255)
+	nome= models.CharField(max_length=150, blank=True, null=True)
+	razao_social= models.CharField(max_length=150, blank=True, null=True)
+	cpf= models.CharField(max_length=11, blank=True, null=True)
+	cnpj= models.CharField(max_length=14, blank=True, null=True)
+	
 	responsavel_parceiro= models.CharField(max_length=255)
 	cargo_responsavel_parceiro= models.CharField(max_length=100)
 	status= models.CharField(max_length=1, choices=status_parceiro, default="A")
 	tipo_parceiro= models.CharField(max_length=100)
-	cpf= models.CharField(max_length=11, null=True)
-	cnpj= models.CharField(max_length=14, null=True)
 	endereco= models.CharField(max_length=255)
 	email= models.EmailField(max_length=100)
 	telefone= models.CharField(max_length=20)
