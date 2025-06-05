@@ -64,15 +64,15 @@ tipo_reuniao= [
 ]
 
 # Revisar
-class MembroONG(models.Model):
-    matricula= models.CharField(primary_key=True)
+class MembroIabs(models.Model):
+    matricula= models.CharField(max_length=15, primary_key=True)
     tipo= models.CharField(max_length=1, choices=tipo_membro, default="C", blank=True)
     nome= models.CharField(max_length=150, blank=True)
-    cpf = models.CharField(max_length=11, blank=True)
+    cpf = models.CharField(max_length=11, unique=True, blank=True)
     status= models.CharField(max_length=1, choices=status_membro, default="A", blank=True)
     cargo= models.CharField(max_length=70, blank=True, null=True)
     email= models.EmailField(max_length=100, unique=True, blank=True)
-    telefone_celular= models.IntegerField(max_length=11, blank=True, null=True)
+    telefone_celular= models.IntegerField(max_length=11, unique=True, blank=True, null=True)
     # declarar: data_nascimento (blank=True, null=True)
 
     def __str__(self):
@@ -80,19 +80,24 @@ class MembroONG(models.Model):
 	
 	# verificar: tipo, nome, cpf, status, email
 
+class Usuario(models.Model):
+    nome= models.CharField(max_length=20, primary_key=True)
+    senha= models.CharField(max_length=15, blank=True)
+    membro_adm= models.OneToOneField(MembroIabs, on_delete=models.CASCADE)
+
 # Revisar
 class Parceiro(models.Model):
-    codigo = models.CharField(primary_key=True)
+    codigo = models.CharField(max_length=15, primary_key=True)
     tipo= models.CharField(max_length=2, choices=tipo_parceiro, blank=True)
     nome= models.CharField(max_length=150, blank=True, null=True)
     razao_social= models.CharField(max_length=150, blank=True, null=True)
-    cpf= models.CharField(max_length=11, blank=True, null=True)
-    cnpj= models.CharField(max_length=14, blank=True, null=True)
+    cpf= models.CharField(max_length=11, unique=True, blank=True, null=True)
+    cnpj= models.CharField(max_length=14, unique=True, blank=True, null=True)
     status= models.CharField(max_length=1, choices=status_parceiro, default="A", blank=True)
     nome_responsavel= models.CharField(max_length=150, blank=True)
     cargo_responsavel= models.CharField(max_length=70, blank=True, null=True)
-    email= models.EmailField(max_length=100, blank=True)
-    telefone_fixo= models.IntegerField(max_length=10, blank=True, null=True)
+    email= models.EmailField(max_length=100, unique=True, blank=True)
+    telefone_fixo= models.IntegerField(max_length=10, unique=True, blank=True, null=True)
     data_inicio= models.DateField(default=timezone.now, blank=True)
     # declarar: data_termino= (blank=True, null=True)
     segmento= models.CharField(max_length=70, blank=True, null=True)
@@ -117,7 +122,7 @@ class Parceiro(models.Model):
 
 # Revisar
 class Reuniao(models.Model):
-    codigo= models.CharField(primary_key=True)
+    codigo= models.CharField(max_length=15, primary_key=True)
     status= models.CharField(max_length=1, choices=status_reuniao, default="A", blank=True)
     assunto= models.CharField(max_length=100, blank=True)
     data_hora= models.DateTimeField(default=timezone.now, blank=True)
@@ -130,17 +135,11 @@ class Reuniao(models.Model):
     # declarar: logradouro (blank=True, null=True)
     # OU utilizar de classe Endereço
     
-    # parceiros= models.ForeignKey(Parceiro, on_delete=models.CASCADE)
     # declarar: relatorio= models.ArchiveField ? (blank=True, null=True)
-    
+    membros= models.ManyToManyField(MembroIabs)
+    parceiros= models.ForeignKey(Parceiro, on_delete=models.CASCADE)
+
     def __str__(self):
         return self.assunto
 
     # verificar: status, assunto, data_hora, tipo, link_conferencia, uf/cep/logradouro ou endereço
-
-class ParticipacaoMembro(models.Model):
-    reuniao= models.ForeignKey(Reuniao, on_delete=models.CASCADE)
-    membrosONG= models.ForeignKey(MembroONG, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.reuniao}, {self.membrosONG}"
