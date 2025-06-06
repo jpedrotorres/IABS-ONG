@@ -45,11 +45,11 @@ def parceiro_view(request):
 		}
 	}
 
-    return render(request, "contatos/parceiro.html", context)
+	return render(request, "contatos/parceiro.html", context)
 
 @login_required
 def reuniao_view(request):
-    context={
+	context={
 		"pagina": {
 			"tipo": "reuniao"
 		}
