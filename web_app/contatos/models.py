@@ -63,7 +63,6 @@ tipo_reuniao= [
     ("V", "Virtual")
 ]
 
-# Revisar
 class MembroIabs(models.Model):
     matricula= models.CharField(max_length=15, primary_key=True)
     tipo= models.CharField(max_length=1, choices=tipo_membro, default="C", blank=True)
@@ -85,7 +84,6 @@ class Usuario(models.Model):
     senha= models.CharField(max_length=15, blank=True)
     membro_adm= models.OneToOneField(MembroIabs, on_delete=models.CASCADE)
 
-# Revisar
 class Parceiro(models.Model):
     codigo = models.CharField(max_length=15, primary_key=True)
     tipo= models.CharField(max_length=2, choices=tipo_parceiro, blank=True)
@@ -104,10 +102,9 @@ class Parceiro(models.Model):
     # uf= models.CharField(max_length=2, choices=uf_estado, blank=True)
     # cep= models.IntegerField(max_length=8, blank=True)
     # declarar: logradouro
-    # OU utilizar de classe Endereço
     website= models.URLField(max_length=200, blank=True, null=True)
     rede_social= models.URLField(max_length=200, blank=True, null=True)
-    # declarar: contrato_parceria= models.ArchiveField ? (blank=True, null=True)
+    # declarar: contrato_parceria= models.FileField(...blank=True, null=True)
     observacoes= models.TextField(blank=True, null=True)
 
     def __str__(self):
@@ -115,12 +112,9 @@ class Parceiro(models.Model):
             return self.nome
         elif self.tipo == "PJ":
             return self.razao_social
-        else:
-            # lançar erro
         
-    # verificar: tipo, nome/razao_social, cpf/cnpj, status, email, data_inicio, uf/cep/logradouro ou endereço
+    # verificar: tipo, nome/razao_social, cpf/cnpj, status, email, data_inicio, uf/cep/logradouro
 
-# Revisar
 class Reuniao(models.Model):
     codigo= models.CharField(max_length=15, primary_key=True)
     status= models.CharField(max_length=1, choices=status_reuniao, default="A", blank=True)
@@ -133,13 +127,12 @@ class Reuniao(models.Model):
     # uf= models.CharField(max_length=2, choices=uf_estado, blank=True, null=True)
     # cep= models.IntegerField(max_length=8, blank=True, null=True)
     # declarar: logradouro (blank=True, null=True)
-    # OU utilizar de classe Endereço
     
-    # declarar: relatorio= models.ArchiveField ? (blank=True, null=True)
+    # declarar: relatorio= models.FileField(...blank=True, null=True)
     membros= models.ManyToManyField(MembroIabs)
     parceiros= models.ForeignKey(Parceiro, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.assunto
 
-    # verificar: status, assunto, data_hora, tipo, link_conferencia, uf/cep/logradouro ou endereço
+    # verificar: status, assunto, data_hora, tipo, link_conferencia, uf/cep/logradouro
