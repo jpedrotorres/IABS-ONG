@@ -73,7 +73,7 @@ class MembroIabs(models.Model):
     cargo= models.CharField(max_length=70, blank=True, null=True)
     email= models.EmailField(max_length=100, unique=True, blank=True)
     telefone_celular= models.IntegerField(max_length=11, unique=True, blank=True, null=True)
-    # declarar: data_nascimento (blank=True, null=True)
+    data_nascimento= models.DateField(default=timezone.now, blank=True)
 
     def __str__(self):
         return self.nome
@@ -99,7 +99,7 @@ class Parceiro(models.Model):
     email= models.EmailField(max_length=100, unique=True, blank=True)
     telefone_fixo= models.IntegerField(max_length=10, unique=True, blank=True, null=True)
     data_inicio= models.DateField(default=timezone.now, blank=True)
-    # declarar: data_termino= (blank=True, null=True)
+    data_termino= models.DateField(blank=True, null=True)
     segmento= models.CharField(max_length=70, blank=True, null=True)
     # uf= models.CharField(max_length=2, choices=uf_estado, blank=True)
     # cep= models.IntegerField(max_length=8, blank=True)
