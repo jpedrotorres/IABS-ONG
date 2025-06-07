@@ -25,6 +25,12 @@ class MembroLoginForms(AuthenticationForm):
 class BaseForms(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
+
+		for field in self.fields.values():
+			field.widget.attrs.update({
+				"class": "info-page-input"
+			})
+
 		if not self.instance.pk and 'status' in self.fields:
 			self.fields["status"].widget = forms.HiddenInput()
 
