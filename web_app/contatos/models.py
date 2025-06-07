@@ -22,17 +22,17 @@ status_reuniao= [
 ]
 
 tipo_membro= [
-	('C', 'Colaborador')
+	('C', 'Colaborador'),
 	('A', 'Administrador')
 ]
 
 tipo_parceiro= [
-    ('PF', 'Pessoa Física')
+    ('PF', 'Pessoa Física'),
     ('PJ', 'Pessoa Jurídica')
 ]
 
 tipo_reuniao= [
-    ('P', 'Presencial')
+    ('P', 'Presencial'),
     ('V', 'Virtual')
 ]
 
