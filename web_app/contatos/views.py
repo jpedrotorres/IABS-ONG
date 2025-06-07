@@ -57,6 +57,11 @@ def reuniao_view(request):
 
 	return render(request, "contatos/reuniao.html", context)
 
+@login_required
+def data_database_view(request):
+	return render(request, "base/base_info_page.html")
+
+@login_required
 def logout_confirm_modal_view(request):
 	try:
 		if request.method=="POST":

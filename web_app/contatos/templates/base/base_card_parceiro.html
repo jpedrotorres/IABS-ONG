@@ -6,6 +6,9 @@
     <h3 class="card-page-name-parceiro">{{ name }}</h3>
 </div>
 {% endblock %}
+
+{% block card_info_url %}{% url "dados_page" %}{% endblock %}
+
 {% block particular_action %}
 <div class="status-parceiro-widget {% if status == 'ativo' %}status-green{% else %}status-red{% endif %}"></div>
 {% endblock %}

@@ -1,10 +1,21 @@
 {% extends "base/base.html" %}
 {% block content %}
     <main class="main-info-page">
-        <h1 class="title-info-page">{% block title_info %}dados{% endblock %}</h1>
+        <h1 class="title-info-page">Detalhes de {{ object_name|default:"Registro" }}</h1>
         <div class="form-info">
-            {% block info_page %}
-            {% endblock %}
+			<form>
+				{% for field in form %}
+					<div class="form-group">
+						<span class="text-label-info">{{ field.label }}</span>
+						{{ field }}
+					</div>
+				{% endfor %}
+
+				<div class="btn-data-page-container">
+					<button onclick="window.history.back()" class="btn-data-page">voltar</button>
+					<a href="#" class="btn-data-page">editar</a>
+				</div>
+			</form>
         </div>
     </main>
 {% endblock %}
