@@ -134,7 +134,7 @@ class Parceiro(models.Model):
     nome_responsavel= models.CharField(max_length=150)
     cargo_responsavel= models.CharField(max_length=70, blank=True, null=True)
     email= models.EmailField(max_length=100, unique=True)
-    telefone_fixo= models.CharField(max_length=10, unique=True, blank=True, null=True, validators=[telefone_validator])
+    telefone= models.CharField(max_length=11, unique=True, blank=True, null=True, validators=[telefone_validator])
     data_inicio= models.DateField(default=timezone.now)
     data_termino= models.DateField(blank=True, null=True)
     segmento= models.CharField(max_length=70, blank=True, null=True)
