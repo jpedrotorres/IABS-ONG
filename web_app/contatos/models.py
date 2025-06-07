@@ -86,6 +86,9 @@ class MembroIabs(models.Model):
                 raise ValidationError({'telefone_celular':'O Telefone Celular deve conter apenas números!'})
 
     def save(self, *args, **kwargs):
+        if not self.pk:
+            self.status = 'A'
+
         if self.tipo == 'A' and self.user:
             self.nome = self.user.get_full_name() or self.user.username
             self.email = self.user.email
@@ -149,6 +152,9 @@ class Parceiro(models.Model):
                 raise ValidationError({'cep':'O CEP deve conter apenas números!'})
 
     def save(self, *args, **kwargs):
+        if not self.pk:
+            self.status = 'A'
+
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -187,6 +193,9 @@ class Reuniao(models.Model):
                     raise ValidationError({'cep':'O CEP deve conter apenas números!'})
 
     def save(self, *args, **kwargs):
+        if not self.pk:
+            self.status = 'A'
+
         super().save(*args, **kwargs)
 
     def __str__(self):
