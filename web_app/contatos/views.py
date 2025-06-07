@@ -3,10 +3,11 @@ from django.http import JsonResponse, HttpResponse, Http404
 from django.urls import reverse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django import forms
 import json
 
 from .models import Parceiro, Reuniao
-from .forms import MembroLoginForms
+from .forms import MembroLoginForms, MembroForms, ParceiroForms, ReuniaoForms
 
 # Create your views here.
 def hello_world(request):
@@ -60,28 +61,35 @@ def reuniao_view(request):
 
 def get_model_and_form(entity_type):
 	if entity_type=="parceiro":
-		return Parceiro, "parceiro"
+		return Parceiro, ParceiroForms, "parceiro"
 
 	elif entity_type=="reuniao":
-		return Reuniao, "reuniao"
+		return Reuniao, ReuniaoForms, "reuniao"
 
 	else:
 		return None, None
 
 @login_required
 def generic_detail_view(request, entity_type, pk):
-	Model, object_name=get_model_and_form(entity_type)
+	Model, Form, object_name=get_model_and_form(entity_type)
 
 	if not Model:
 		raise Http404("Tipo de entidade inválido.")
 
 	obj = get_object_or_404(Model, pk=pk)
 
-#	form = Form(instance=obj)
+	form = Form(instance=obj)
+
+	for field_name, field_object in form.fields.items():
+		if isinstance(field_object.widget, forms.Select) or isinstance(field_object.widget, forms.ClearableFileInput):
+			field_object.widget.attrs['disabled'] = True
+
+		else:
+			field_object.widget.attrs['readonly'] = True
 
 	context = {
 		'object_name': object_name,
-	#	'form': form,
+		'form': form,
 	#	'edit_url': reverse(edit_url_name, args=[pk]),
 	#	'back_url': reverse(list_url_name),
 	}
