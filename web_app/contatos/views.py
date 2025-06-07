@@ -37,11 +37,10 @@ def index_view(request):
 
 @login_required
 def parceiro_view(request):
+	parceiros = Parceiro.objects.all()
+
 	context={
-		"parceiro": {
-			"name": "teste",
-			"status": "ativo",
-		},
+		"parceiros": parceiros,
 		"pagina": {
 			"tipo": "parceiro"
 		}
@@ -81,7 +80,10 @@ def generic_detail_view(request, entity_type, pk):
 	form = Form(instance=obj)
 
 	for field_name, field_object in form.fields.items():
-		if isinstance(field_object.widget, forms.Select) or isinstance(field_object.widget, forms.ClearableFileInput):
+		if (isinstance(field_object.widget, forms.Select) or
+			isinstance(field_object.widget, forms.ClearableFileInput) or
+			isinstance(field_object.widget, forms.RadioSelect) or
+			isinstance(field_object.widget, forms.CheckboxSelectMultiple)):
 			field_object.widget.attrs['disabled'] = True
 
 		else:

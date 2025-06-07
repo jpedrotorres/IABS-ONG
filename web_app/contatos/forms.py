@@ -5,6 +5,18 @@ from django.utils.translation import gettext_lazy as _
 from .models import MembroIabs, Parceiro, Reuniao
 
 #create forms here
+tipo_membro= [
+	('C', 'Colaborador'),
+	('A', 'Administrador')
+]
+
+
+
+tipo_reuniao= [
+	('P', 'Presencial'),
+	('V', 'Virtual')
+]
+
 #Formulário de Login
 class MembroLoginForms(AuthenticationForm):
 	error_messages= {
@@ -51,9 +63,14 @@ class MembroForms(BaseForms):
 	class Meta:
 		model=MembroIabs
 		fields="__all__"
+		widgets = {
+			"tipo": forms.RadioSelect,
+		}
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
+
+		self.fields['status'].widget.attrs.update({'class': 'status-input-info'})
 
 		self.order_fields([
 		"matricula",
@@ -70,9 +87,25 @@ class MembroForms(BaseForms):
 
 #Formulário para Parceiro
 class ParceiroForms(BaseForms):
+	tipo_parceiro= [
+		('PF', 'Pessoa Física'),
+		('PJ', 'Pessoa Jurídica')
+	]
+
+	tipo = forms.ChoiceField(
+		choices=tipo_parceiro,
+		widget=forms.RadioSelect(
+			attrs={'class': 'form-check-input'},
+		),
+		required=True
+	)
+
 	class Meta:
 		model=Parceiro
 		fields="__all__"
+		widgets = {
+			"tipo": forms.RadioSelect,
+		}
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
@@ -108,8 +141,11 @@ class ReuniaoForms(BaseForms):
 		model=Reuniao
 		fields="__all__"
 
+
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
+
+		self.fields['tipo'].empty_label = None
 
 		self.order_fields([
 		"assunto",
