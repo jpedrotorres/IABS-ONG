@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import gettext_lazy as _
 
+from .models import MembroIabs, Parceiro, Reuniao
+
 #create forms here
 #Formulário de Login
 class MembroLoginForms(AuthenticationForm):
@@ -20,11 +22,11 @@ class MembroLoginForms(AuthenticationForm):
 	)
 
 #Formulário base para os demais
-class BaseForms(forms.ModelForms):
+class BaseForms(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		if not self.instance.pk:
-			self.fields.pop("status")
+		if not self.instance.pk and 'status' in self.fields:
+			self.fields["status"].widget = forms.HiddenInput()
 
 	def save(self, commit=True):
 		instance = super().save(commit=False)
