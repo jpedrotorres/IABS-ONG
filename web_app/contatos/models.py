@@ -149,14 +149,6 @@ class Parceiro(models.Model):
             if not self.cep.isdigit():
                 raise ValidationError({'cep':'O CEP deve conter apenas números!'})
 
-            response = requests.get(f'https://viacep.com.br/ws/{self.cep}/json/')
-            data = response.json()
-
-        if 'erro' in data:
-            raise ValidationError({'cep': 'O CEP do Parceiro é inválido!'})
-
-        self.logradouro = data.get('logradouro', '')
-
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
@@ -195,16 +187,9 @@ class Reuniao(models.Model):
                 if not self.cep.isdigit():
                     raise ValidationError({'cep':'O CEP deve conter apenas números!'})
 
-                response = requests.get(f'https://viacep.com.br/ws/{self.cep}/json/')
-                data = response.json()
-
-            if 'erro' in data:
-                raise ValidationError({'cep': 'O CEP da Reunião é inválido!'})
-
-            self.logradouro = data.get('logradouro', '')
-
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
     def __str__(self):
         return self.assunto
+self.full_clean()
