@@ -2,7 +2,6 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-import requests
 
 status_membro= [
 	('A', 'Ativo'),
@@ -115,7 +114,7 @@ class Parceiro(models.Model):
     segmento= models.CharField(max_length=70, blank=True, null=True)
     uf= models.CharField(max_length=2, choices=uf_estado)
     cep= models.CharField(max_length=8)
-    logradouro = models.CharField(max_length=200)
+    logradouro = models.CharField(max_length=200, blank=True, null=True)
     numero_local= models.CharField(max_length=15, blank=True, null=True)
     website= models.URLField(max_length=200, blank=True, null=True)
     rede_social= models.URLField(max_length=200, blank=True, null=True)
@@ -192,4 +191,3 @@ class Reuniao(models.Model):
 
     def __str__(self):
         return self.assunto
-self.full_clean()
