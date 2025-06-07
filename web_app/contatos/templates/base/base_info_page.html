@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
 {% block content %}
     <main class="main-info-page">
-        <h1 class="title-info-page">Detalhes de {{ object_name|default:"Registro" }}</h1>
+        <h1 class="title-info-page">detalhes de {{ object_name|default:"Registro" }}</h1>
         <div class="form-info">
 			<form>
 				{% for field in form %}
@@ -10,12 +10,11 @@
 						{{ field }}
 					</div>
 				{% endfor %}
-
-				<div class="btn-data-page-container">
-					<button onclick="window.history.back()" class="btn-data-page">voltar</button>
-					<a href="#" class="btn-data-page">editar</a>
-				</div>
 			</form>
+			<div class="btn-data-page-container">
+				<button onclick="window.history.back()" class="btn-data-page">voltar</button>
+				<a href="#" class="btn-data-page">editar</a>
+			</div>
         </div>
     </main>
 {% endblock %}
