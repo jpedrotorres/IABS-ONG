@@ -5,6 +5,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 import json
 
+from .models import Parceiro, Reuniao
 from .forms import MembroLoginForms
 
 # Create your views here.
@@ -57,9 +58,35 @@ def reuniao_view(request):
 
 	return render(request, "contatos/reuniao.html", context)
 
+def get_model_and_form(entity_type):
+	if entity_type=="parceiro":
+		return Parceiro, "parceiro"
+
+	elif entity_type=="reuniao":
+		return Reuniao, "reuniao"
+
+	else:
+		return None, None
+
 @login_required
-def data_database_view(request):
-	return render(request, "base/base_info_page.html")
+def generic_detail_view(request, entity_type, pk):
+	Model, object_name=get_model_and_form(entity_type)
+
+	if not Model:
+		raise Http404("Tipo de entidade inválido.")
+
+	obj = get_object_or_404(Model, pk=pk)
+
+#	form = Form(instance=obj)
+
+	context = {
+		'object_name': object_name,
+	#	'form': form,
+	#	'edit_url': reverse(edit_url_name, args=[pk]),
+	#	'back_url': reverse(list_url_name),
+	}
+
+	return render(request, "base/base_info_page.html", context)
 
 @login_required
 def logout_confirm_modal_view(request):
