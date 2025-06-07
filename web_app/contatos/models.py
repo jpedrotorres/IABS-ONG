@@ -91,7 +91,6 @@ class MembroIabs(models.Model):
             self.nome = self.user.get_full_name() or self.user.username
             self.email = self.user.email
 
-        self.full_clean()
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -159,7 +158,6 @@ class Parceiro(models.Model):
         self.logradouro = data.get('logradouro', '')
 
     def save(self, *args, **kwargs):
-        self.full_clean()
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -206,7 +204,6 @@ class Reuniao(models.Model):
             self.logradouro = data.get('logradouro', '')
 
     def save(self, *args, **kwargs):
-        self.full_clean()
         super().save(*args, **kwargs)
 
     def __str__(self):
