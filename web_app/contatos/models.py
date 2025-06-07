@@ -2,7 +2,9 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 
+#Campos para atributos do tipo <select>
 status_membro= [
 	('A', 'Ativo'),
 	('I', 'Inativo'),
@@ -65,25 +67,46 @@ uf_estado = [
     ('TO', 'Tocantins')
 ]
 
+#Validações de dados com Regex
+telefone_validator = RegexValidator(
+    regex=r'^\d{10,11}$',
+    message='O Telefone deve conter apenas números e ter 10 ou 11 dígitos.',
+    code='telefone_invalido'
+)
+
+cep_validator = RegexValidator(
+    regex=r'^\d{8}$',
+    message='O CEP deve conter exatamente 8 números.',
+    code='cep_invalido'
+)
+
+cpf_validator= RegexValidator(
+    regex=r'^\d{11}$',
+    message='O CPF deve conter 11 dígitos',
+    code='cpf_invalido'
+)
+
+cnpj_validator= RegexValidator(
+    regex=r'^\d{14}$',
+    message='O CNPJ deve conter 14 dígitos',
+    code='cnpj_invalido'
+)
+
 class MembroIabs(models.Model):
     user= models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     matricula= models.CharField(max_length=15, primary_key=True)
     tipo= models.CharField(max_length=1, choices=tipo_membro, default='C')
     nome= models.CharField(max_length=150)
-    cpf = models.CharField(max_length=11, unique=True)
+    cpf = models.CharField(max_length=11, unique=True, validators=[cpf_validator])
     status= models.CharField(max_length=1, choices=status_membro, default='A')
     cargo= models.CharField(max_length=70, blank=True, null=True)
     email= models.EmailField(max_length=100, unique=True, blank=True)
-    telefone_celular= models.CharField(max_length=11, unique=True, blank=True, null=True)
+    telefone= models.CharField(max_length=11, unique=True, blank=True, null=True, validators=[telefone_validator])
     data_nascimento= models.DateField(blank=True, null=True)
 
     def clean(self):
         if self.tipo == 'A' and not self.user:
             raise ValidationError({'user': 'O Usuário do Membro deve ser informado!'})
-
-        if self.telefone_celular:
-            if not self.telefone_celular.isdigit():
-                raise ValidationError({'telefone_celular':'O Telefone Celular deve conter apenas números!'})
 
     def save(self, *args, **kwargs):
         if not self.pk:
@@ -105,18 +128,18 @@ class Parceiro(models.Model):
     tipo= models.CharField(max_length=2, choices=tipo_parceiro)
     nome= models.CharField(max_length=150, blank=True, null=True)
     razao_social= models.CharField(max_length=150, blank=True, null=True)
-    cpf= models.CharField(max_length=11, unique=True, blank=True, null=True)
-    cnpj= models.CharField(max_length=14, unique=True, blank=True, null=True)
+    cpf= models.CharField(max_length=11, unique=True, blank=True, null=True, validators=[cpf_validator])
+    cnpj= models.CharField(max_length=14, unique=True, blank=True, null=True, validators=[cnpj_validator])
     status= models.CharField(max_length=1, choices=status_parceiro, default='A')
     nome_responsavel= models.CharField(max_length=150)
     cargo_responsavel= models.CharField(max_length=70, blank=True, null=True)
     email= models.EmailField(max_length=100, unique=True)
-    telefone_fixo= models.CharField(max_length=10, unique=True, blank=True, null=True)
+    telefone_fixo= models.CharField(max_length=10, unique=True, blank=True, null=True, validators=[telefone_validator])
     data_inicio= models.DateField(default=timezone.now)
     data_termino= models.DateField(blank=True, null=True)
     segmento= models.CharField(max_length=70, blank=True, null=True)
     uf= models.CharField(max_length=2, choices=uf_estado)
-    cep= models.CharField(max_length=8)
+    cep= models.CharField(max_length=8, validators=[cep_validator])
     logradouro = models.CharField(max_length=200, blank=True, null=True)
     numero_local= models.CharField(max_length=15, blank=True, null=True)
     website= models.URLField(max_length=200, blank=True, null=True)
@@ -143,14 +166,6 @@ class Parceiro(models.Model):
         if self.cpf and self.cnpj:
             raise ValidationError('O Parceiro não pode ter CPF e CNPJ simultaneamente!')
 
-        if self.telefone_fixo:
-            if not self.telefone_fixo.isdigit():
-                raise ValidationError({'telefone_fixo':'O Telefone Fixo deve conter apenas números!'})
-
-        if self.cep:
-            if not self.cep.isdigit():
-                raise ValidationError({'cep':'O CEP deve conter apenas números!'})
-
     def save(self, *args, **kwargs):
         if not self.pk:
             self.status = 'A'
@@ -172,7 +187,7 @@ class Reuniao(models.Model):
     tipo= models.CharField(max_length=1, choices=tipo_reuniao)
     link_conferencia = models.URLField(max_length=200, blank=True, null=True)
     uf= models.CharField(max_length=2, choices=uf_estado, blank=True, null=True)
-    cep= models.CharField(max_length=8, blank=True, null=True)
+    cep= models.CharField(max_length=8, blank=True, null=True, validators=[cep_validator])
     logradouro = models.CharField(max_length=200, blank=True, null=True)
     numero_local= models.CharField(max_length=15, blank=True, null=True)
     relatorio= models.FileField(upload_to='reuniao_relatorios/', blank=True, null=True)
@@ -187,10 +202,6 @@ class Reuniao(models.Model):
         if self.tipo == 'P':
             if not self.uf:
                 raise ValidationError({'uf':'A UF da Reunião deve ser informada!'})
-
-            if self.cep:
-                if not self.cep.isdigit():
-                    raise ValidationError({'cep':'O CEP deve conter apenas números!'})
 
     def save(self, *args, **kwargs):
         if not self.pk:
