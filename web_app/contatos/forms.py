@@ -46,11 +46,55 @@ class MembroForms(BaseForms):
 		model=MembroIabs
 		fields="__all__"
 
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+
+		self.order_fields([
+		"matricula",
+		"nome",
+		"cpf",
+		"status",
+		"cargo",
+		"email",
+		"telefone",
+		"data_nascimento",
+		"tipo",
+		"user"
+		])
+
 #Formulário para Parceiro
 class ParceiroForms(BaseForms):
 	class Meta:
 		model=Parceiro
 		fields="__all__"
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+
+		self.order_fields([
+		"codigo",
+		"status",
+		"nome",
+		"cpf",
+		"razao_social",
+		"cnpj",
+		"nome_responsavel",
+		"cargo_responsavel",
+		"email",
+		"uf",
+		"cep",
+		"logradouro",
+		"numero_local",
+		"observacoes",
+		"contrato_parceria",
+		"tipo",
+		"segmento",
+		"website",
+		"telefone",
+		"rede_social",
+		"data_inicio",
+		"data_fim",
+		])
 
 #Formulário para Reuniões
 class ReuniaoForms(BaseForms):
@@ -58,3 +102,19 @@ class ReuniaoForms(BaseForms):
 		model=Reuniao
 		fields="__all__"
 
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+
+		self.order_fields([
+		"assunto",
+		"parceiros",
+		"membros",
+		"status",
+		"tipo",
+		"uf",
+		"cep",
+		"logradouro",
+		"numero_local",
+		"link_conferencia",
+		"data_hora",
+		])
