@@ -180,7 +180,6 @@ class Parceiro(models.Model):
             return self.razao_social
 
 class Reuniao(models.Model):
-    codigo= models.CharField(max_length=15, primary_key=True)
     status= models.CharField(max_length=1, choices=status_reuniao, default='A')
     assunto= models.CharField(max_length=100)
     data_hora= models.DateTimeField(default=timezone.now)
