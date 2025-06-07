@@ -19,12 +19,8 @@ class MembroLoginForms(AuthenticationForm):
 		widget=forms.PasswordInput(attrs={"class": "input-login", "placeholder": "senha"})
 	)
 
-#Formulário para Parceiro
-class ParceiroForms(forms.ModelForm):
-	class Meta:
-		model=MembroIabs
-		fields="__all__"
-
+#Formulário base para os demais
+class BaseForms(forms.ModelForms):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		if not self.instance.pk:
@@ -40,4 +36,23 @@ class ParceiroForms(forms.ModelForm):
 			instance.save()
 
 		return instance
+
+
+#Fomulário para Membro
+class MembroForms(BaseForms):
+	class Meta:
+		model=MembroIabs
+		fields="__all__"
+
+#Formulário para Parceiro
+class ParceiroForms(BaseForms):
+	class Meta:
+		model=Parceiro
+		fields="__all__"
+
+#Formulário para Reuniões
+class ReuniaoForms(BaseForms):
+	class Meta:
+		model=Reuniao
+		fields="__all__"
 
