@@ -82,7 +82,11 @@ def generic_list_view(request, entity_type):
 	queryset = Model.objects.all()
 	
 	if search_term:
-		if entity_type == "parceiro":
+		if entity_type == "membro":
+			queryset = queryset.filter(
+				Q(nome__icontains=search_term)
+			)
+		elif entity_type == "parceiro":
 			queryset = queryset.filter(
 				Q(nome__icontains=search_term) | Q(razao_social__icontains=search_term)
 			)

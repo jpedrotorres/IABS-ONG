@@ -2,7 +2,7 @@
     <div class="modal-register-container-text">
         <span class="modal-register-text-icon"></span>
         <span class="modal-register-text">
-            Cadastrar {% if pagina.tipo == "parceiro" %}parceiro{% elif pagina.tipo == "reuniao" %}reunião{% endif %}
+            Cadastrar {% if pagina.tipo == "membro" %}membro{% elif pagina.tipo == "parceiro" %}parceiro{% elif pagina.tipo == "reuniao" %}reunião{% endif %}
         </span>
     </div>
     <a href="{{ url }}" class="btn-modal-register">cadastrar</a>
