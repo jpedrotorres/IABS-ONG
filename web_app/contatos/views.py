@@ -62,17 +62,17 @@ def reuniao_view(request):
 
 def get_model_and_form(entity_type):
 	if entity_type=="parceiro":
-		return Parceiro, ParceiroForms, "parceiro", "parceiro_page"
+		return Parceiro, ParceiroForms, "parceiro", "parceiro_page", "parceiro_detail", "parceiro_edit"
 
 	elif entity_type=="reuniao":
-		return Reuniao, ReuniaoForms, "reuniao", "reuniao_page"
+		return Reuniao, ReuniaoForms, "reuniao", "reuniao_page", "reuniao_detail", "reuniao_edit"
 
 	else:
 		return None, None, None, None
 
 @login_required
 def generic_detail_view(request, entity_type, pk):
-	Model, Form, object_name, page_list=get_model_and_form(entity_type)
+	Model, Form, object_name, page_list, page_detail, page_edit=get_model_and_form(entity_type)
 
 	if not Model:
 		raise Http404("Tipo de entidade inválido.")
@@ -94,14 +94,14 @@ def generic_detail_view(request, entity_type, pk):
 	context = {
 		'object_name': object_name,
 		'form': form,
-		'edit_url': reverse("parceiro_edit", args=[pk]),
+		'edit_url': reverse(page_edit, args=[pk]),
 	}
 
 	return render(request, "base/base_info_page.html", context)
 
 @login_required
 def generic_create_view(request, entity_type):
-	Model, Form, object_name, page_list=get_model_and_form(entity_type)
+	Model, Form, object_name, page_list, page_detail, page_edit=get_model_and_form(entity_type)
 
 	if not Model:
 		raise Http404("Tipo de entidade inválido.")
@@ -125,7 +125,7 @@ def generic_create_view(request, entity_type):
 
 @login_required
 def generic_edit_view(request, entity_type, pk):
-	Model, Form, object_name, page_list=get_model_and_form(entity_type)
+	Model, Form, object_name, page_list, page_datail, page_edit=get_model_and_form(entity_type)
 
 	if not Model:
 		raise Http404("Tipo de entidade inválido.")
@@ -136,7 +136,7 @@ def generic_edit_view(request, entity_type, pk):
 		form = Form(request.POST, instance=obj)
 		if form.is_valid():
 			form.save()
-			return redirect(reverse("parceiro_detail", args=[pk]))
+			return redirect(reverse(page_detail, args=[pk]))
 	else:
 		form = Form(instance=obj)
 
