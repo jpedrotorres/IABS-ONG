@@ -12,5 +12,5 @@
 {% block card_info_url %}{% url "reuniao_detail" pk=reuniao.pk %}{% endblock %}
 
 {% block particular_action %}
-<a href="{% block card_action_url %}#{% endblock %}" class="btn-card-page-new-action">relatório</a>
+<a href="{% block card_action_url %}#{% endblock %}" class="btn-card-page-new-action" id="btn-show-relatorio" data-reuniao-id="{{ reuniao.pk }}" data-check-url="{% url 'warning_relatorio' pk=object.pk %}">>relatório</a>
 {% endblock %}

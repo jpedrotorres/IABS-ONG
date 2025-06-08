@@ -15,5 +15,6 @@ urlpatterns = [
 	path("login/", views.membro_login_view, name="login"),
 	path("logout/confirm/", views.logout_confirm_modal_view, name="logout_confirm"),
 	path("logout/", views.membro_logout_view, name="logout"),
+	path("reunioes/<int:pk>/relatorio/aviso", views.warning_relatorio_modal_view, {"entity_type": "reuniao"}, name="warning_relatorio"),
 	path("hello/", views.hello_world, name="hello-world")
 ]

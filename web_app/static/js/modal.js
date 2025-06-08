@@ -15,7 +15,7 @@ function openGenericModal(genericModalUrl, modalData) {
 		console.error("Dados do modal inválidos. Esperava um objeto.");
 		return;
 	}
-	
+
 	fetch(genericModalUrl, {
 		method: 'POST',
 		headers: {
@@ -38,7 +38,7 @@ function openGenericModal(genericModalUrl, modalData) {
 		genericModalPlace.innerHTML= html
 		genericModalDialog= document.querySelector("#modal-dialog")
 		genericModalBackdrop= document.querySelector("#modal-backdrop")
-		
+
 		if (!genericModalDialog || !genericModalBackdrop) {
 			console.error("Elementos do modal (dialog ou backdrop) não encontrados após a inserção do HTML.")
 			return
@@ -48,7 +48,7 @@ function openGenericModal(genericModalUrl, modalData) {
 		closeButtons.forEach(button => {
 			button.addEventListener('click', closeGenericModal);
 		})
-		
+
 		genericModalBackdrop.addEventListener("click", function(event) {
 			if (event.target == genericModalBackdrop) closeGenericModal()
 		})
@@ -101,6 +101,22 @@ if (logoutButton) {
 		const logoutUrl= logoutButton.dataset.modalUrl
 		console.log("URL de modal de logout sendo usada:", logoutUrl)
 		openGenericModal(logoutUrl, {type: 'logout' })
+	})
+}
+
+const relatorioButton= document.querySelector("#btn-show-relatorio")
+if (relatorioButton) {
+	relatorioButton.addEventListener("click", function(event) {
+		event.preventDefault()
+
+		const reuniaoId = relatorioButton.dataset.reuniaoId;
+		const checkUrl = relatorioButton.dataset.checkUrl
+
+		if(!userHasRelatorio) {
+			const relatorioUrl= relatorioButton.dataset.modalUrl
+			console.log("URL de modal de aviso sendo usada:", logoutUrl)
+			openGenericModal(relatorioUrl, {type: 'aviso_relatorio' })
+		}
 	})
 }
 

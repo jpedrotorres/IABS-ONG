@@ -146,10 +146,48 @@ def generic_edit_view(request, entity_type, pk):
 		"object_name": object_name,
 		"form": form,
 		'action_text': 'editar',
-		"back_url": reverse(page_detail, args=[pk])
+		"back_url": reverse(page_detail, args=[pk]),
+		"btn_confirmar_form": "salvar"
 	}
 
 	return render(request, "base/base_form_page.html", context)
+
+@login_required
+def warning_relatorio_modal_view(request, pk, entity_type=None):
+	try:
+		context={}
+		if request.method=="POST":
+			obj=get_object_or_404(Reuniao, pk=pk)
+
+			if obj.relatorio:
+				return JsonResponse({
+					'status': 'success',
+					'message': 'Relatório encontrado. Nenhuma ação de aviso necessária.',
+					'relatorio_url': reuniao.relatorio.url if reuniao.relatorio else None
+				})
+
+			else:
+				data=json.loads(request.body)
+
+				modal_title = data.get('title', 'Atenção!')
+				modal_message = data.get('message', 'Confirma esta ação?')
+				modal_confirm_url = data.get('confirm_url', '#')
+				modal_confirm_text = data.get('confirm_text', 'Confirmar')
+
+				modal_title="relatório não encontrado!"
+				modal_message="não foi possível acessar o relatório desta reunião"
+
+				context={
+					'modal_title': modal_title,
+					'modal_message': modal_message,
+				}
+
+		return render(request, "base/base_message.html", context)
+
+	except json.JSONDecodeError:
+		return JsonResponse({'error': 'Requisição JSON inválida.'}, status=400)
+	except Exception as e:
+		return JsonResponse({'error': str(e)}, status=500)
 
 
 @login_required
@@ -163,7 +201,7 @@ def logout_confirm_modal_view(request):
 			modal_confirm_url = data.get('confirm_url', '#')
 			modal_confirm_text = data.get('confirm_text', 'Confirmar')
 
-			modal_title="atençao! fechando sistema"
+			modal_title="atenção! fechando sistema"
 			modal_message="você tem certeza que deseja sair?"
 			modal_confirm_url=reverse("logout")
 			modal_confirm_text="sair"
