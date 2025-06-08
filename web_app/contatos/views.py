@@ -68,7 +68,7 @@ def get_model_and_form(entity_type):
 		return Reuniao, ReuniaoForms, "reuniao", "reuniao_page", "reuniao_detail", "reuniao_edit"
 
 	else:
-		return None, None, None, None
+		return None, None, None, None, None, None
 
 @login_required
 def generic_detail_view(request, entity_type, pk):
@@ -110,8 +110,21 @@ def generic_create_view(request, entity_type):
 	if request.method == 'POST':
 		form = Form(request.POST, request.FILES)
 		if form.is_valid():
-			form.save()
-			return redirect(reverse(page_list))
+			obj= form.save()
+			
+			if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+				return JsonResponse({
+					'success': True,
+					'pk': obj.pk,
+					'detail_url': reverse(page_detail, args=[obj.pk])
+				})
+			else:
+				return redirect(reverse(page_list))
+				
+		else:
+			if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+				return JsonResponse({'success': False, 'errors': form.errors}, status=400)
+			
 	else:
 		form = Form()
 
@@ -120,7 +133,10 @@ def generic_create_view(request, entity_type):
 		"form": form,
 		'form_action_url': request.path,
 		'action_text': 'Criar Novo',
-		"back_url": reverse(page_list)
+		"back_url": reverse(page_list),
+		'entity_type': entity_type,
+		'btn_confirmar_form': 'cadastro',
+		'object_id': ''
 	}
 
 	return render(request, "base/base_form_page.html", context)
@@ -138,7 +154,18 @@ def generic_edit_view(request, entity_type, pk):
 		form = Form(request.POST, request.FILES, instance=obj)
 		if form.is_valid():
 			form.save()
-			return redirect(reverse(page_detail, args=[pk]))
+			
+			if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+				return JsonResponse({
+					'success': True,
+					'pk': obj.pk,
+					'detail_url': reverse(page_detail, args=[obj.pk])
+				})
+			else:
+				return redirect(reverse(page_detail, args=[pk]))
+		else:
+			if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+				return JsonResponse({'success': False, 'errors': form.errors}, status=400)
 	else:
 		form = Form(instance=obj)
 
@@ -147,10 +174,73 @@ def generic_edit_view(request, entity_type, pk):
 		"form": form,
 		'action_text': 'editar',
 		"back_url": reverse(page_detail, args=[pk]),
-		"btn_confirmar_form": "salvar"
+		"btn_confirmar_form": "editar",
+		'entity_type': entity_type,
+		'object_id': pk
 	}
 
 	return render(request, "base/base_form_page.html", context)
+
+@login_required
+def generic_alter_modal_view(request):
+	if request.method!="POST":
+		return JsonResponse({'error': 'Método não permitido.'}, status=405)
+	
+	try:
+		data = json.loads(request.body)
+		modal_type = data.get('type', 'generic')
+		
+		entity= data.get("entity_type")
+		object_id= data.get("object_id")
+		current_action = data.get("action", modal_type)
+		
+		if not entity:
+			return JsonResponse({'error': 'Parâmetros entity_type é obrigatório.'}, status=400)
+		
+		Model, Form, object_name, page_list, page_detail, page_edit=get_model_and_form(entity)
+		
+		if not Model:
+			return JsonResponse({'error': 'Tipo de entidade inválido.'}, status=400)
+		
+
+		modal_confirm_text = "confirmar"
+		modal_title= "salvando informações"
+		modal_message=data.get('message', 'Confirma esta ação?')
+		modal_confirm_url="#"
+		
+		if modal_type == 'cadastro':
+			modal_title = "Finalizar Cadastro"
+			modal_message="deseja finalizar o cadastro?"
+			
+			modal_confirm_url = reverse(page_list)
+
+		elif modal_type == "editar":
+			modal_title = f"Alterar {object_name}"
+			modal_message="deseja alterar os dados?"
+			
+			if object_id and str(object_id).isdigit() and int(object_id) > 0:
+				try:
+					modal_confirm_url = reverse(page_detail, args=[object_id])
+				except Exception:
+					modal_confirm_url = reverse(page_list)
+			else:
+				return JsonResponse({'error': 'PK obrigatório para modal de edição.'}, status=400)
+		
+		context={
+			'modal_title': modal_title,
+			'modal_message': modal_message,
+			'modal_confirm_url': modal_confirm_url,
+			'modal_confirm_text': modal_confirm_text,
+			'modal_type': modal_type
+			}
+		
+		return render(request, "base/base_message.html", context)
+
+	except json.JSONDecodeError:
+		return JsonResponse({'error': 'Requisição JSON inválida.'}, status=400)
+	except Exception as e:
+		return JsonResponse({'error': str(e)}, status=500)
+
 
 @login_required
 def warning_relatorio_modal_view(request, pk):
