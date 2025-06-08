@@ -2,5 +2,6 @@
 venv
 .venv
 .env
+media/
 __pycache__
 *.sqlite3
