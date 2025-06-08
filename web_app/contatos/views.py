@@ -95,6 +95,7 @@ def generic_detail_view(request, entity_type, pk):
 		'object_name': object_name,
 		'form': form,
 		'edit_url': reverse(page_edit, args=[pk]),
+		"back_url": reverse(page_list)
 	}
 
 	return render(request, "base/base_info_page.html", context)
@@ -118,14 +119,15 @@ def generic_create_view(request, entity_type):
 		"object_name": object_name,
 		"form": form,
 		'form_action_url': request.path,
-		'action_text': 'Criar Novo'
+		'action_text': 'Criar Novo',
+		"back_url": reverse(page_list)
 	}
 
 	return render(request, "base/base_form_page.html", context)
 
 @login_required
 def generic_edit_view(request, entity_type, pk):
-	Model, Form, object_name, page_list, page_datail, page_edit=get_model_and_form(entity_type)
+	Model, Form, object_name, page_list, page_detail, page_edit=get_model_and_form(entity_type)
 
 	if not Model:
 		raise Http404("Tipo de entidade inválido.")
@@ -143,7 +145,8 @@ def generic_edit_view(request, entity_type, pk):
 	context = {
 		"object_name": object_name,
 		"form": form,
-		'action_text': 'editar'
+		'action_text': 'editar',
+		"back_url": reverse(page_detail, args=[pk])
 	}
 
 	return render(request, "base/base_form_page.html", context)
