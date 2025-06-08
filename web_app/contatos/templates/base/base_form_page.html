@@ -5,8 +5,9 @@
     <main class="main-info-page">
         <h1 class="title-info-page">{{ action_text }} {{ object_name }}</h1>
         <div class="form-info">
-			<form method="post">
+			<form method="post" action="{{ form_action_url }}">
 				{% csrf_token %}
+				{{ form.errors }}
 				{% for field in form %}
 					<div class="form-group">
 						<span class="text-label-info">{{ field.label_tag }}</span>
@@ -27,7 +28,7 @@
 			</form>
 			<div class="btn-data-page-container">
 				<button onclick="window.history.back()" class="btn-data-page">voltar</button>
-				<a href="#" class="btn-data-page">editar</a>
+				<a href="#" class="btn-data-page">limpar</a>
 			</div>
         </div>
     </main>

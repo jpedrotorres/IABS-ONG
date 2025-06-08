@@ -92,7 +92,7 @@ def generic_detail_view(request, entity_type, pk):
 	context = {
 		'object_name': object_name,
 		'form': form,
-	#	'edit_url': reverse(edit_url_name, args=[pk]),
+		'edit_url': reverse("parceiro_edit", args=[pk]),
 	#	'back_url': reverse(list_url_name),
 	}
 
@@ -109,17 +109,44 @@ def generic_create_view(request, entity_type):
 		form = Form(request.POST)
 		if form.is_valid():
 			form.save()
-			return redirect(reverse(list_url_name)) # Redireciona para a lista
+			return redirect(reverse("parceiro_page"))
 	else:
 		form = Form()
 
 	context = {
 		"object_name": object_name,
 		"form": form,
+		'form_action_url': request.path,
 		'action_text': 'Criar Novo'
 	}
 
-	return render(request, "base/base_info_page.html", context)
+	return render(request, "base/base_form_page.html", context)
+
+@login_required
+def generic_edit_view(request, entity_type, pk):
+	Model, Form, object_name=get_model_and_form(entity_type)
+
+	if not Model:
+		raise Http404("Tipo de entidade inválido.")
+
+	obj = get_object_or_404(Model, pk=pk)
+
+	if request.method == 'POST':
+		form = Form(request.POST, instance=obj)
+		if form.is_valid():
+			form.save()
+			return redirect(reverse("parceiro_detail", args=[pk]))
+	else:
+		form = Form(instance=obj)
+
+	context = {
+		"object_name": object_name,
+		"form": form,
+		'action_text': 'editar'
+	}
+
+	return render(request, "base/base_form_page.html", context)
+
 
 @login_required
 def logout_confirm_modal_view(request):
