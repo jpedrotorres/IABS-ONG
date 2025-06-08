@@ -5,6 +5,9 @@
 {% block main_content_list %}
 {% for reuniao in reunioes %}
 	{% include "base/base_card_reuniao.html" %}
+
+{% empty %}
+	<h1>Sem registros</h1>
 {% endfor %}
 {% endblock %}
 {% block aside_content %}

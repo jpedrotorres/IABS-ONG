@@ -1,14 +1,16 @@
 {% extends "base/base_card_page.html" %}
 {% block content %}
-<div class="card-page-img-parceiro"></div>
-<div class="card-page-text-parceiro">
-	<p class="card-page-status-parceiro">{% if status == 'A' %}ativo{% else %}inativo{% endif %}</p>
-	<h3 class="card-page-name-parceiro">{{ name }}</h3>
+<div class="card-page-img-reuniao"></div>
+<div class="card-page-text-reuniao">
+	<h3 class="card-page-assunto-reuniao">{{ reuniao.assunto }}</h3>
+	<p class="card-page-date-reuniao">data: {{ reuniao.data_hora }}
+	<p class="card-page-status-reuniao">status: {% if reuniao.status == "A" %}agendada{% elif reuniao.status == 'R' %}realizada{% else %}cancelada{% endif %}</p>
+	<p class="card-page-type-reuniao">tipo de reunião: {% if reuniao.tipo == "P" %}presencial{% else %}virtual{% endif %}</p>
 </div>
 {% endblock %}
 
-{% block card_info_url %}{% url "reuniao_detail" pk=1 %}{% endblock %}
+{% block card_info_url %}{% url "reuniao_detail" pk=reuniao.pk %}{% endblock %}
 
 {% block particular_action %}
-<div class="status-parceiro-widget {% if status == 'A' %}status-green{% else %}status-red{% endif %}"></div>
+<a href="{% block card_action_url %}#{% endblock %}" class="btn-card-page-new-action">relatório</a>
 {% endblock %}
