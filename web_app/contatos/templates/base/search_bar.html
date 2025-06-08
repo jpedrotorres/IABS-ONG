@@ -1,6 +1,6 @@
 <form method="get">
 	<div class="search-bar">
-		<input type="search" placeholder="pesquise aqui!" name="obj" class="input-search"><!--value= "{{ request.GET.obj }}"-->
+		<input type="search" placeholder="pesquise aqui!" name="obj" class="input-search" value="{{ search_term|default_if_none:'' }}">
 		<button type="submit" class="btn-search"><i class="bx bx-search"></i></button>
 	</div>
 </form>

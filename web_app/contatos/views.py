@@ -3,10 +3,11 @@ from django.http import JsonResponse, HttpResponse, Http404
 from django.urls import reverse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django import forms
 import json
 
-from .models import Parceiro, Reuniao
+from .models import MembroIabs, Parceiro, Reuniao
 from .forms import MembroLoginForms, MembroForms, ParceiroForms, ReuniaoForms
 
 # Create your views here.
@@ -36,32 +37,22 @@ def index_view(request):
     return render(request, "contatos/index.html")
 
 @login_required
+def membro_view(request):
+	return generic_list_view(request, "membro")
+
+@login_required
 def parceiro_view(request):
-	parceiros = Parceiro.objects.all()
-
-	context={
-		"parceiros": parceiros,
-		"pagina": {
-			"tipo": "parceiro"
-		}
-	}
-
-	return render(request, "contatos/parceiro.html", context)
+	return generic_list_view(request, "parceiro")
 
 @login_required
 def reuniao_view(request):
-	reunioes=Reuniao.objects.all()
-	context={
-		"reunioes": reunioes,
-		"pagina": {
-			"tipo": "reuniao"
-		}
-	}
-
-	return render(request, "contatos/reuniao.html", context)
+	return generic_list_view(request, "reuniao")
 
 def get_model_and_form(entity_type):
-	if entity_type=="parceiro":
+	if entity_type=="membro":
+		return MembroIabs, MembroForms, "membro", "membro_page", "membro_detail", "membro_edit"
+
+	elif entity_type=="parceiro":
 		return Parceiro, ParceiroForms, "parceiro", "parceiro_page", "parceiro_detail", "parceiro_edit"
 
 	elif entity_type=="reuniao":
@@ -69,6 +60,45 @@ def get_model_and_form(entity_type):
 
 	else:
 		return None, None, None, None, None, None
+
+@login_required
+def generic_list_view(request, entity_type):
+	Model, _, object_name, _, page_detail, _ = get_model_and_form(entity_type)
+
+	if entity_type == "membro":
+		template_path= "contatos/membro.html"
+		objects= "membros"
+	elif entity_type == "parceiro":
+		template_path= "contatos/parceiro.html"
+		objects= "parceiros"
+	elif entity_type == "reuniao":
+		template_path= "contatos/reuniao.html"
+		objects= "reunioes"
+
+	if not Model:
+		raise Http404("Tipo de entidade inválido.")
+	
+	search_term = request.GET.get("obj", "").strip()
+	queryset = Model.objects.all()
+	
+	if search_term:
+		if entity_type == "parceiro":
+			queryset = queryset.filter(
+				Q(nome__icontains=search_term) | Q(razao_social__icontains=search_term)
+			)
+		elif entity_type == "reuniao":
+			queryset = queryset.filter(
+				Q(assunto__icontains=search_term) | Q(parceiros__nome__icontains=search_term) | Q(parceiros__razao_social__icontains=search_term) | Q(membros__nome__icontains=search_term)
+			)
+	
+	context = {
+		'object_name': object_name,
+		objects: queryset,
+		'search_term': search_term,
+	}
+
+	return render(request, template_path, context)
+	
 
 @login_required
 def generic_detail_view(request, entity_type, pk):
