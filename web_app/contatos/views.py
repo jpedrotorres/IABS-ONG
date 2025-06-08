@@ -50,7 +50,9 @@ def parceiro_view(request):
 
 @login_required
 def reuniao_view(request):
+	reunioes=Reuniao.objects.all()
 	context={
+		"reunioes": reunioes,
 		"pagina": {
 			"tipo": "reuniao"
 		}
@@ -93,7 +95,6 @@ def generic_detail_view(request, entity_type, pk):
 		'object_name': object_name,
 		'form': form,
 		'edit_url': reverse("parceiro_edit", args=[pk]),
-	#	'back_url': reverse(list_url_name),
 	}
 
 	return render(request, "base/base_info_page.html", context)
