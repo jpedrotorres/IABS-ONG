@@ -4,7 +4,7 @@
 
 {% block main_content_list %}
 {% for parceiro in parceiros %}
-	{% include "base/base_card_parceiro.html" with status=parceiro.status name=parceiro.nome %}
+	{% include "base/base_card_parceiro.html" %}
 {% endfor %}
 {% endblock %}
 {% block aside_content %}
