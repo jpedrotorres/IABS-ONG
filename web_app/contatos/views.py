@@ -62,17 +62,17 @@ def reuniao_view(request):
 
 def get_model_and_form(entity_type):
 	if entity_type=="parceiro":
-		return Parceiro, ParceiroForms, "parceiro"
+		return Parceiro, ParceiroForms, "parceiro", "parceiro_page"
 
 	elif entity_type=="reuniao":
-		return Reuniao, ReuniaoForms, "reuniao"
+		return Reuniao, ReuniaoForms, "reuniao", "reuniao_page"
 
 	else:
-		return None, None
+		return None, None, None, None
 
 @login_required
 def generic_detail_view(request, entity_type, pk):
-	Model, Form, object_name=get_model_and_form(entity_type)
+	Model, Form, object_name, page_list=get_model_and_form(entity_type)
 
 	if not Model:
 		raise Http404("Tipo de entidade inválido.")
@@ -101,7 +101,7 @@ def generic_detail_view(request, entity_type, pk):
 
 @login_required
 def generic_create_view(request, entity_type):
-	Model, Form, object_name=get_model_and_form(entity_type)
+	Model, Form, object_name, page_list=get_model_and_form(entity_type)
 
 	if not Model:
 		raise Http404("Tipo de entidade inválido.")
@@ -110,7 +110,7 @@ def generic_create_view(request, entity_type):
 		form = Form(request.POST)
 		if form.is_valid():
 			form.save()
-			return redirect(reverse("parceiro_page"))
+			return redirect(reverse(page_list))
 	else:
 		form = Form()
 
@@ -125,7 +125,7 @@ def generic_create_view(request, entity_type):
 
 @login_required
 def generic_edit_view(request, entity_type, pk):
-	Model, Form, object_name=get_model_and_form(entity_type)
+	Model, Form, object_name, page_list=get_model_and_form(entity_type)
 
 	if not Model:
 		raise Http404("Tipo de entidade inválido.")
