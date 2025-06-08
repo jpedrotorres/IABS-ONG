@@ -99,6 +99,29 @@ def generic_detail_view(request, entity_type, pk):
 	return render(request, "base/base_info_page.html", context)
 
 @login_required
+def generic_create_view(request, entity_type):
+	Model, Form, object_name=get_model_and_form(entity_type)
+
+	if not Model:
+		raise Http404("Tipo de entidade inválido.")
+
+	if request.method == 'POST':
+		form = Form(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect(reverse(list_url_name)) # Redireciona para a lista
+	else:
+		form = Form()
+
+	context = {
+		"object_name": object_name,
+		"form": form,
+		'action_text': 'Criar Novo'
+	}
+
+	return render(request, "base/base_info_page.html", context)
+
+@login_required
 def logout_confirm_modal_view(request):
 	try:
 		if request.method=="POST":
