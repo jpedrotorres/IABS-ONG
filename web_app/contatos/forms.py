@@ -5,18 +5,6 @@ from django.utils.translation import gettext_lazy as _
 from .models import MembroIabs, Parceiro, Reuniao
 
 #create forms here
-tipo_membro= [
-	('C', 'Colaborador'),
-	('A', 'Administrador')
-]
-
-
-
-tipo_reuniao= [
-	('P', 'Presencial'),
-	('V', 'Virtual')
-]
-
 #Formulário de Login
 class MembroLoginForms(AuthenticationForm):
 	error_messages= {
@@ -60,12 +48,22 @@ class BaseForms(forms.ModelForm):
 
 #Fomulário para Membro
 class MembroForms(BaseForms):
+	tipo_membro= [
+		('C', 'Colaborador'),
+		('A', 'Administrador')
+	]
+
+	tipo = forms.ChoiceField(
+		choices=tipo_membro,
+		widget=forms.RadioSelect(
+			attrs={'class': 'form-check-input'},
+		),
+		required=True
+	)
+
 	class Meta:
 		model=MembroIabs
 		fields="__all__"
-		widgets = {
-			"tipo": forms.RadioSelect,
-		}
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
@@ -103,9 +101,6 @@ class ParceiroForms(BaseForms):
 	class Meta:
 		model=Parceiro
 		fields="__all__"
-		widgets = {
-			"tipo": forms.RadioSelect,
-		}
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
@@ -137,6 +132,19 @@ class ParceiroForms(BaseForms):
 
 #Formulário para Reuniões
 class ReuniaoForms(BaseForms):
+	tipo_reuniao= [
+		('P', 'Presencial'),
+		('V', 'Virtual')
+	]
+
+	tipo = forms.ChoiceField(
+		choices=tipo_reuniao,
+		widget=forms.RadioSelect(
+			attrs={'class': 'form-check-input'},
+		),
+		required=True
+	)
+
 	class Meta:
 		model=Reuniao
 		fields="__all__"
