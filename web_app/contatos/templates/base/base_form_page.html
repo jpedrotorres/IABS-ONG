@@ -5,7 +5,7 @@
     <main class="main-info-page">
         <h1 class="title-info-page">{{ action_text }} {{ object_name }}</h1>
         <div class="form-info">
-			<form method="post" action="{{ form_action_url }}">
+			<form method="post" action="{{ form_action_url }}" enctype="multipart/form-data">
 				{% csrf_token %}
 				{{ form.errors }}
 				{% for field in form %}

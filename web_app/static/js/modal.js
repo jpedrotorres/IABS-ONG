@@ -119,7 +119,7 @@ if (relatorioButtons.length>0) {
 				if(!data.tem_relatorio) {
 					openGenericModal(modalUrl, { type: 'aviso_relatorio' })
 				} else {
-					window.location.href = `/reuniao/${data.reuniao_id}`
+					window.open(data.relatorio_url, "_blank")
 				}
 			})
 			.catch(error => {

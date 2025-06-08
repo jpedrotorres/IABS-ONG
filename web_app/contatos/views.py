@@ -108,7 +108,7 @@ def generic_create_view(request, entity_type):
 		raise Http404("Tipo de entidade inválido.")
 
 	if request.method == 'POST':
-		form = Form(request.POST)
+		form = Form(request.POST, request.FILES)
 		if form.is_valid():
 			form.save()
 			return redirect(reverse(page_list))
@@ -135,7 +135,7 @@ def generic_edit_view(request, entity_type, pk):
 	obj = get_object_or_404(Model, pk=pk)
 
 	if request.method == 'POST':
-		form = Form(request.POST, instance=obj)
+		form = Form(request.POST, request.FILES, instance=obj)
 		if form.is_valid():
 			form.save()
 			return redirect(reverse(page_detail, args=[pk]))
@@ -159,7 +159,11 @@ def warning_relatorio_modal_view(request, pk):
 
 		if request.method=="GET":
 			tem_relatorio = bool(obj.relatorio)
-			return JsonResponse({'tem_relatorio': tem_relatorio, 'reuniao_id': obj.pk})
+			return JsonResponse({
+				'tem_relatorio': tem_relatorio,
+				'reuniao_id': obj.pk,
+				'relatorio_url': obj.relatorio.url if obj.relatorio else ''
+			})
 
 
 		elif request.method=="POST":
