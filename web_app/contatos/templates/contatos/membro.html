@@ -1,0 +1,16 @@
+{% extends "base/base_main_page.html" %}
+
+{% block title %}Parceiros{% endblock %}
+
+{% block main_content_list %}
+{% for membro in membros %}
+	{% include "base/base_card_membro.html" %}
+
+{% empty %}
+	<h1>Sem registros</h1>
+{% endfor %}
+{% endblock %}
+{% block aside_content %}
+	{% url "membro_create" as url_membro_create %}
+	{% include "base/register_modal.html" with url=url_membro_create %}
+{% endblock %}
