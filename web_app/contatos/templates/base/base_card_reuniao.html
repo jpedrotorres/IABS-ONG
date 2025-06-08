@@ -1,0 +1,14 @@
+{% extends "base/base_card_page.html" %}
+{% block content %}
+<div class="card-page-img-parceiro"></div>
+<div class="card-page-text-parceiro">
+	<p class="card-page-status-parceiro">{% if status == 'A' %}ativo{% else %}inativo{% endif %}</p>
+	<h3 class="card-page-name-parceiro">{{ name }}</h3>
+</div>
+{% endblock %}
+
+{% block card_info_url %}{% url "reuniao_detail" pk=1 %}{% endblock %}
+
+{% block particular_action %}
+<div class="status-parceiro-widget {% if status == 'A' %}status-green{% else %}status-red{% endif %}"></div>
+{% endblock %}
