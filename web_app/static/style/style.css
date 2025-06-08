@@ -29,8 +29,8 @@ header {
 	background: var(--verdeEscuro);
 
 	width: 100%;
-	height: calc(100vh - 60px);
-	padding: 50px 0 10px;
+	height: calc(100vh - 50px);
+	padding-top: 50px;
 
 	overflow: hidden;
 
