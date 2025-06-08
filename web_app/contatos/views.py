@@ -123,7 +123,10 @@ def generic_create_view(request, entity_type):
 				
 		else:
 			if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-				return JsonResponse({'success': False, 'errors': form.errors}, status=400)
+				return JsonResponse({
+					'error': 'Erro de validação',
+					'errors': form.errors
+				}, status=400)
 			
 	else:
 		form = Form()
@@ -165,7 +168,10 @@ def generic_edit_view(request, entity_type, pk):
 				return redirect(reverse(page_detail, args=[pk]))
 		else:
 			if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-				return JsonResponse({'success': False, 'errors': form.errors}, status=400)
+				return JsonResponse({
+					'error': "Erro de validação",
+					'errors': form.errors
+				}, status=400)
 	else:
 		form = Form(instance=obj)
 

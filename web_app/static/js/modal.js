@@ -62,6 +62,7 @@ function openGenericModal(genericModalUrl, modalData, onConfirmActionCallback = 
 				if (onConfirmActionCallback && typeof onConfirmActionCallback === 'function') {
 					onConfirmActionCallback()
 				}
+				
 				closeGenericModal()
 			})
 		}
@@ -118,7 +119,9 @@ if (logoutButton) {
 		event.preventDefault()
 		const logoutUrl= logoutButton.dataset.modalUrl
 		console.log("URL de modal de logout sendo usada:", logoutUrl)
-		openGenericModal(logoutUrl, {type: 'logout' })
+		openGenericModal(logoutUrl, {type: 'logout' }, ()=> {
+			window.location.href = '/logout/'
+		})
 	})
 }
 
@@ -179,15 +182,24 @@ if (confirmFormButton) {
 					},
 					body: formData
 				})
-				.then(response => {
+				.then(async response => {
 					console.log("Resposta do servidor recebida. Status:", response.status)
 
 					if (!response.ok) {
-						return response.json().then(err => {
-							throw new Error(err.error || `Erro na submissão do formulário: ${response.status} ${response.statusText}`)
-						}).catch(() => {
-							throw new Error(`Erro na submissão do formulário: ${response.status} ${response.statusText}`)
-						})
+						let errorData = {}
+						try {
+							errorData = await response.clone().json()
+						} catch (jsonError) {
+							const text = await response.text()
+							console.error("Resposta bruta do erro:", text)
+							throw new Error(`Erro ${response.status}: ${response.statusText}`)
+						}
+						
+						
+						const errorMessage = errorData.error || `Erro HTTP: ${response.status} ${response.statusText}`
+						const detailedError = new Error(errorMessage)
+						detailedError.formErrors = errorData.errors
+						throw detailedError
 					}
 					return response.json();
 				})
@@ -210,10 +222,11 @@ if (confirmFormButton) {
 					clearFormErrors(currentForm)
 					
 					if (error.formErrors) {
+						console.log("Exibindo erros do formulário:", error.formErrors)
 						displayFormErrors(currentForm, error.formErrors)
-						alert("Por favor, corrija os erros no formulário.")
 					} else {
 						alert(error.message || "Ocorreu um erro inesperado ao salvar o formulário. Tente novamente.")
+						closeGenericModal()
 					}
 					
 				})
