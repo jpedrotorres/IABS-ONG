@@ -1,4 +1,6 @@
 {% extends "base/base.html" %}
+{% block title %}Detalhes de {{ object_name|default:"Registro" }}{% endblock %}
+
 {% block content %}
     <main class="main-info-page">
         <h1 class="title-info-page">detalhes de {{ object_name|default:"Registro" }}</h1>
