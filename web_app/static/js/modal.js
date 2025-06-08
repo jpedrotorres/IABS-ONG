@@ -104,19 +104,28 @@ if (logoutButton) {
 	})
 }
 
-const relatorioButton= document.querySelector("#btn-show-relatorio")
-if (relatorioButton) {
-	relatorioButton.addEventListener("click", function(event) {
-		event.preventDefault()
+const relatorioButtons= document.querySelectorAll(".btn-show-relatorio")
+if (relatorioButtons.length>0) {
+	relatorioButtons.forEach(button => {
+		button.addEventListener("click", function(event) {
+			event.preventDefault()
 
-		const reuniaoId = relatorioButton.dataset.reuniaoId;
-		const checkUrl = relatorioButton.dataset.checkUrl
+			const checkUrl = button.dataset.checkUrl
+			const modalUrl = button.dataset.modalUrl
 
-		if(!userHasRelatorio) {
-			const relatorioUrl= relatorioButton.dataset.modalUrl
-			console.log("URL de modal de aviso sendo usada:", logoutUrl)
-			openGenericModal(relatorioUrl, {type: 'aviso_relatorio' })
-		}
+			fetch(checkUrl)
+			.then(response => response.json())
+			.then(data => {
+				if(!data.tem_relatorio) {
+					openGenericModal(modalUrl, { type: 'aviso_relatorio' })
+				} else {
+					window.location.href = `/reuniao/${data.reuniao_id}`
+				}
+			})
+			.catch(error => {
+				console.error("Erro ao verificar o relatório:", error)
+			})
+		})
 	})
 }
 

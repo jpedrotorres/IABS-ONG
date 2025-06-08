@@ -153,36 +153,27 @@ def generic_edit_view(request, entity_type, pk):
 	return render(request, "base/base_form_page.html", context)
 
 @login_required
-def warning_relatorio_modal_view(request, pk, entity_type=None):
+def warning_relatorio_modal_view(request, pk):
 	try:
-		context={}
-		if request.method=="POST":
-			obj=get_object_or_404(Reuniao, pk=pk)
+		obj=get_object_or_404(Reuniao, pk=pk)
 
-			if obj.relatorio:
-				return JsonResponse({
-					'status': 'success',
-					'message': 'Relatório encontrado. Nenhuma ação de aviso necessária.',
-					'relatorio_url': reuniao.relatorio.url if reuniao.relatorio else None
-				})
+		if request.method=="GET":
+			tem_relatorio = bool(obj.relatorio)
+			return JsonResponse({'tem_relatorio': tem_relatorio, 'reuniao_id': obj.pk})
 
-			else:
-				data=json.loads(request.body)
 
-				modal_title = data.get('title', 'Atenção!')
-				modal_message = data.get('message', 'Confirma esta ação?')
-				modal_confirm_url = data.get('confirm_url', '#')
-				modal_confirm_text = data.get('confirm_text', 'Confirmar')
+		elif request.method=="POST":
+			data=json.loads(request.body)
 
-				modal_title="relatório não encontrado!"
-				modal_message="não foi possível acessar o relatório desta reunião"
+			modal_title="relatório não encontrado!"
+			modal_message="não foi possível acessar o relatório desta reunião"
 
-				context={
-					'modal_title': modal_title,
-					'modal_message': modal_message,
-				}
+			context={
+				'modal_title': modal_title,
+				'modal_message': modal_message,
+			}
 
-		return render(request, "base/base_message.html", context)
+			return render(request, "base/base_message.html", context)
 
 	except json.JSONDecodeError:
 		return JsonResponse({'error': 'Requisição JSON inválida.'}, status=400)
