@@ -171,3 +171,14 @@ main {
 	border: none;
 	cursor: pointer;
 }
+
+.i-saida {
+	max-height: 37px;
+  	width: auto;
+	margin-bottom: -10px;
+}
+
+.i-cadastro {
+	height: auto;
+	max-width: 100%;
+}

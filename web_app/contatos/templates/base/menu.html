@@ -7,8 +7,11 @@
 		<a href="{% url 'membro_page' %}" class="header-opc {% if 'membros' in request.path %}header-opc-active{% endif %}"><span class="opc-icon"><i class="bx bx-calendar-event"></i></span><span class="opc-text">membros</span></a>
 
 		<hr class="hr-menu">
-
-		<a href="#" class="header-out-system" id="btn-logout" data-modal-url="{% url 'logout_confirm' %}"><span class="out-system-icon">Icon</span><span class="opc-text out-system-text">sair</span></a>
+		
+		<a href="#" class="header-out-system" id="btn-logout" data-modal-url="{% url 'logout_confirm' %}">
+			<span class="out-system-icon"><img src="../../static/image/icons/sair.svg" class="i-saida" alt="Porta de saída"></span>
+			<span class="opc-text out-system-text">sair</span>
+		</a>
 		<div id="modal-generic"></div>
 
 	</nav>
