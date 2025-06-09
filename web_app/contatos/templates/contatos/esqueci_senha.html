@@ -2,22 +2,24 @@
 {% block title %}Esqueci a Senha{% endblock %}
 
 {% block title_page_form %}redefinir senha{% endblock %}
-{% block form_action_url %}#{% endblock %}
-{% block btn_message %}Enviar{% endblock %}
+{% block form_action_url %}{% url 'enviar_email_admin' %}{% endblock %}
+{% block btn_message_login %}Enviar{% endblock %}
 
 {% block form_fields %}
-	{% if form.non_field_errors %}
+{% if form.email %}
+	{% if form.email.errors %}
 		<br/>
 		<div class="alert-errors">
-			{% for error in form.non_field_errors %}
+			{% for error in form.email.errors %}
 				<p class="alert-text">{{ error }}</p>
 			{% endfor %}
 		</div>
 	{% endif %}
-
-	{% for field in form %}
-		<label for="{{ field.id_for_label }}" class="text-label-input">{{ field.label }}</label>
-			{{ field }}
+		<label for="{{ form.email.id_for_label }}" class="text-label-input">{{ form.email.label }}</label>
+			 {{ form.email }}
+{% else %}
+	<p>Ocorreu um erro ao carregar o formulário. Por favor, tente novamente.</p>
+{% endif %}
 {% endblock %}
 
 {% block extra_links %}

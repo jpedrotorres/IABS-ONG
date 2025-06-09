@@ -138,3 +138,18 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = '6fe3283d3d2e53'
+EMAIL_HOST_PASSWORD = 'd5d2edf4123e49'
+EMAIL_PORT = '2525'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'seu_email_remetente@dominio.com'
+
+ADMINS = [
+    ('Nome do Admin', 'email_do_admin@dominio.com'),
+]
+
+MANAGERS = ADMINS

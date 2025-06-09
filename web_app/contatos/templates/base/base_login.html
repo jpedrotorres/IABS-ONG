@@ -19,6 +19,16 @@
 			<img src="{% static 'image/iabs_logo1.png' %}" alt="Logo da ONG IABS" class="image-in-login">
 		</div>
 		<hr>
+		
+		{% if messages %}
+			<div class="messages-container"> {# Um container para estilizar suas mensagens #}
+				{% for message in messages %}
+				<div class="alert {% if message.tags %}{{ message.tags }}{% endif %}" role="alert">
+					{{ message }}
+				</div>
+				{% endfor %}
+			</div>
+		{% endif %}
 
 		<div class="login-card">
 			<h2 class="title-form">{% block title_page_form %}login{% endblock %}</h2>

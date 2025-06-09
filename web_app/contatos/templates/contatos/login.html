@@ -3,7 +3,7 @@
 
 {% block title_page_form %}login{% endblock %}
 {% block form_action_url %}{% url 'login' %}{% endblock %}
-{% block btn_message %}Entrar{% endblock %}
+{% block btn_message_login %}Entrar{% endblock %}
 
 {% block form_fields %}
 
@@ -31,7 +31,7 @@
 
 {% block extra_links %}
 	<div class="container-forget-passwd">
-		<a href="#" class="forgot-password-link" id="forget-passwd">Esqueceu a senha?</a>
+		<a href="{% url 'enviar_email_admin' %}" class="forgot-password-link" id="forget-passwd">Esqueceu a senha?</a>
 	</div>
 {% endblock %}
 

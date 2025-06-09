@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.contrib import messages
 from django.core.mail import send_mail
 from django import forms
+from django.conf import settings
 import json
 
 from .models import MembroIabs, Parceiro, Reuniao
@@ -60,7 +61,7 @@ def enviar_email_admin_view(request):
 	else:
 		form = ContatoAdminForm()
 	
-	return render(request, 'base/password_reset_form.html', {'form': form})
+	return render(request, 'contatos/esqueci_senha.html', {'form': form})
 
 @login_required
 def index_view(request):
