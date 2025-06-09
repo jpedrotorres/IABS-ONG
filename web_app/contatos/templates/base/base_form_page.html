@@ -10,7 +10,7 @@
 				<ul class="errorlist nonfield-errors"></ul>
 
 				{% for field in form %}
-					<div class="form-group">
+					<div class="form-group {% if field.name == 'cpf' or field.name == 'nome' %}form-group-cpf{% endif %} {% if field.name == 'cnpj' or field.name == 'razao_social' %}form-group-cnpj{% endif %}">
 						<span class="text-label-info">{{ field.label_tag }}</span>
 						{% if field.name == 'tipo' %}
 							<div class="radio-container">

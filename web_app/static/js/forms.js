@@ -6,7 +6,7 @@ function clearAddressFields() {
 	if (logradouroField) logradouroField.value = ''
 	if (ufField) ufField.value = ''
 
-	if (logradouroField) logradouroField.setAttribute('readonly', true)
+	if (logradouroField) logradouroField.removeAttribute('readonly')
 }
 
 function fillAddressFields(data) {
@@ -16,6 +16,7 @@ function fillAddressFields(data) {
 	if (logradouroField && data.logradouro) logradouroField.value = data.logradouro
 	if (ufField && data.uf) ufField.value = data.uf
 
+	if (logradouroField) logradouroField.setAttribute('readonly', true)
 }
 
 function searchCep() {
@@ -66,6 +67,60 @@ function searchCep() {
 	})
 }
 
+const tipoFields = document.querySelectorAll('[name="tipo"]')
+let pfFieldsContainer
+let pjFieldsContainer
 
+function initPersonTypeVisibility() {
+	pfFieldsContainer = document.querySelectorAll('.form-group-cpf')
+	pjFieldsContainer = document.querySelectorAll('.form-group-cnpj')
 	
+	if (tipoFields.length === 0 || pfFieldsContainer.length === 0 || pjFieldsContainer.length === 0) {
+		console.warn("Elementos PJ/PF ou CPF/CNPJ não encontrados. Verifique as classes HTML ou os nomes dos campos.")
+		return
+	}
 	
+	tipoFields.forEach(radio => {
+		radio.addEventListener('change', togglePersonTypeFields)
+	})
+	
+	togglePersonTypeFields()
+}
+
+function togglePersonTypeFields() {
+	let selectedTipo = null
+	tipoFields.forEach(radio => {
+		if (radio.checked) {
+			selectedTipo = radio.value
+		}
+	})
+	
+	pfFieldsContainer.forEach(group => group.classList.add('hidden-field'))
+	pjFieldsContainer.forEach(group => group.classList.add('hidden-field'))
+	
+	pfFieldsContainer.forEach(group => {
+		const input = group.querySelector('input')
+		if (input) input.value = ''
+	})
+	
+	pjFieldsContainer.forEach(group => {
+		const input = group.querySelector('input')
+		if (input) input.value = ''
+	})
+	
+	if (selectedTipo === 'PF') {
+		pfFieldsContainer.forEach(group => group.classList.remove('hidden-field'))
+	} else if (selectedTipo === 'PJ') {
+		pjFieldsContainer.forEach(group => group.classList.remove('hidden-field'))
+	}
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+	const cepField = document.querySelector('[name="cep"]')
+	if (cepField) {
+		cepField.addEventListener('blur', searchCep)
+	}
+	
+	initPersonTypeVisibility()
+})
+

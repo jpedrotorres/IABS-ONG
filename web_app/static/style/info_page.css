@@ -110,3 +110,7 @@ input[readonly], select[readonly], textarea[readonly] {
 
 	cursor: pointer;
 }
+
+.hidden-field {
+	display: none !important;
+}
