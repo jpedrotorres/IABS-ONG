@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>{% block title %}Login{% endblock %} |IABS</title>
+
+	<!--Colocar o CSS e um ícone da página-->
+	{% load static %}
+	
+	<link rel="stylesheet" href="{% static 'style/login.css'%}">
+
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body class="login-body">
+	<main class="login-main">
+		<div class="login-image-container">
+			<img src="{% static 'image/iabs_logo1.png' %}" alt="Logo da ONG IABS" class="image-in-login">
+		</div>
+		<hr>
+
+		<div class="login-card">
+			<h2 class="title-form">{% block title_page_form %}login{% endblock %}</h2>
+			<form id="login-form" method="post" action="{% block form_action_url %}{% url 'login' %}{% endblock %}">
+				{% csrf_token %}
+				{% block form_fields %}
+				{% endblock %}
+				<button type="submit" class="btn-submit-form">{% block btn_message_login %}entrar{% endblock %}</button>
+			</form>
+			{% block extra_links %}
+				<div class="login-extra-links">
+					<a href="{% url 'password_reset' %}" class="forgot-password-link">Esqueceu a senha?</a>
+				</div>
+			{% endblock %}
+		</div>
+	</main>
+</body>
+</html>
