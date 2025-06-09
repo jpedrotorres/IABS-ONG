@@ -16,7 +16,7 @@
 	</div>
 {% endif %}
 {% for field in form %}
-	<span class="text-label-input">{{ field.label }}</span>
+	<label for="{{ field.id_for_label }}" class="text-label-input">{{ field.label }}</label>
 	{{ form.message.errors }}
 	<div class="input-box-login">
 		{% if field.name == "username" %}

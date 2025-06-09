@@ -4,11 +4,13 @@ from django.urls import reverse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.contrib import messages
+from django.core.mail import send_mail
 from django import forms
 import json
 
 from .models import MembroIabs, Parceiro, Reuniao
-from .forms import MembroLoginForms, MembroForms, ParceiroForms, ReuniaoForms
+from .forms import MembroLoginForms, MembroForms, ParceiroForms, ReuniaoForms, ContatoAdminForm
 
 # Create your views here.
 def hello_world(request):
@@ -31,6 +33,34 @@ def membro_login_view(request):
 		if request.user.is_authenticated:
 			return redirect("parceiro_page")
 	return render(request, "contatos/login.html", {"form": form})
+
+def enviar_email_admin_view(request):
+	if request.method == 'POST':
+		form = ContatoAdminForm(request.POST)
+		if form.is_valid():
+			user_email = form.cleaned_data['email']
+			subject = f"Solicitação de troca de senha"
+			message = f"O usuário com o e-mail '{user_email}' enviou uma solicitação através do formulário de contato. Ele espera um retorno."
+			
+			admin_email = settings.ADMINS[0][1] if settings.ADMINS else 'admin@example.com'
+			
+			try:
+				send_mail(
+					subject,
+					message,
+					settings.DEFAULT_FROM_EMAIL,
+					[admin_email],
+					fail_silently=False,
+				)
+				messages.success(request, "Seu e-mail foi enviado ao administrador com sucesso!")
+				return redirect(reverse_lazy('login'))
+			except Exception as e:
+				messages.error(request, f"Ocorreu um erro ao enviar o e-mail. Por favor, tente novamente. Erro: {e}")
+	
+	else:
+		form = ContatoAdminForm()
+	
+	return render(request, 'base/password_reset_form.html', {'form': form})
 
 @login_required
 def index_view(request):

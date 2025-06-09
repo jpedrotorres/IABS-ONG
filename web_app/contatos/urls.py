@@ -18,6 +18,7 @@ urlpatterns = [
 	path('reunioes/<str:pk>/editar/', views.generic_edit_view, {'entity_type': 'reuniao'}, name='reuniao_edit'),
 	path('confirmar/', views.generic_alter_modal_view, name='generic_alter_modal'),
 	path("login/", views.membro_login_view, name="login"),
+	path("esqueci_senha/", views.enviar_email_admin_view, name='enviar_email_admin'),
 	path("logout/confirm/", views.logout_confirm_modal_view, name="logout_confirm"),
 	path("logout/", views.membro_logout_view, name="logout"),
 	path("reunioes/<str:pk>/relatorio/aviso", views.warning_relatorio_modal_view, name="warning_relatorio"),

@@ -20,6 +20,13 @@ class MembroLoginForms(AuthenticationForm):
 		label="senha:",
 		widget=forms.PasswordInput(attrs={"class": "input-login", "placeholder": "senha"})
 	)
+	
+class ContatoAdminForm(forms.Form):
+	email = forms.EmailField(
+		label="Seu E-mail",
+		max_length=254,
+		widget=forms.EmailInput(attrs={'placeholder': 'seu.email@exemplo.com'})
+	)
 
 #Formulário base para os demais
 class BaseForms(forms.ModelForm):

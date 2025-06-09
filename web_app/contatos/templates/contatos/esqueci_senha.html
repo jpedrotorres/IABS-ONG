@@ -1,0 +1,27 @@
+{% extends "base/base_login.html" %}
+{% block title %}Esqueci a Senha{% endblock %}
+
+{% block title_page_form %}redefinir senha{% endblock %}
+{% block form_action_url %}#{% endblock %}
+{% block btn_message %}Enviar{% endblock %}
+
+{% block form_fields %}
+	{% if form.non_field_errors %}
+		<br/>
+		<div class="alert-errors">
+			{% for error in form.non_field_errors %}
+				<p class="alert-text">{{ error }}</p>
+			{% endfor %}
+		</div>
+	{% endif %}
+
+	{% for field in form %}
+		<label for="{{ field.id_for_label }}" class="text-label-input">{{ field.label }}</label>
+			{{ field }}
+{% endblock %}
+
+{% block extra_links %}
+	<p class="form-link">
+		<a href="{% url 'login' %}">Voltar para o Login</a>
+	</p>
+{% endblock %}
